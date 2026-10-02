@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import type { MockAgent } from "@/lib/mock/agents";
 import { Dialog } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/toast-provider";
 import {
   AGENT_SKILL_OPTIONS,
   AGENT_TOOL_OPTIONS,
@@ -69,6 +70,7 @@ export function AgentFormModal({
   );
   const [skills, setSkills] = useState<Set<AgentSkillKey>>(new Set(agent?.skills ?? []));
   const [model, setModel] = useState<AgentModel>(agent?.model ?? "haiku");
+  const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -95,12 +97,15 @@ export function AgentFormModal({
     try {
       if (mode === "create") {
         await agentsApi.create(input);
+        toast({ type: "success", message: `Đã tạo agent "${input.name}"` });
       } else if (agent) {
         await agentsApi.update(agent.slug, input);
+        toast({ type: "success", message: `Đã cập nhật agent "${input.name}"` });
       }
       onClose();
     } catch {
       setError("Có lỗi xảy ra, thử lại nhé.");
+      toast({ type: "error", message: "Có lỗi xảy ra, thử lại nhé." });
     } finally {
       setSubmitting(false);
     }

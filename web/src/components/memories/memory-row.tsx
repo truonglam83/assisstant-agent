@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { MockMemory } from "@/lib/mock/memories";
 import { memoriesApi } from "@/lib/api/memories";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { useToast } from "@/components/ui/toast-provider";
 
 const CATEGORY_LABEL: Record<string, string> = {
   profile: "Hồ sơ",
@@ -20,6 +21,7 @@ export function MemoryRow({ memory }: { memory: MockMemory }) {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const [pending, setPending] = useState(false);
+  const { toast } = useToast();
 
   async function togglePin() {
     const next = !pinned;
@@ -27,6 +29,10 @@ export function MemoryRow({ memory }: { memory: MockMemory }) {
     setPending(true);
     await memoriesApi.update(memory.id, { pinned: next });
     setPending(false);
+    toast({
+      type: "info",
+      message: next ? "Đã ghim ghi nhớ lên đầu" : "Đã bỏ ghim ghi nhớ",
+    });
   }
 
   async function saveEdit() {
@@ -35,6 +41,7 @@ export function MemoryRow({ memory }: { memory: MockMemory }) {
     setContent(draft);
     setEditing(false);
     setPending(false);
+    toast({ type: "success", message: "Đã cập nhật nội dung ghi nhớ" });
   }
 
   if (deleted) return null;
@@ -142,6 +149,7 @@ export function MemoryRow({ memory }: { memory: MockMemory }) {
             await memoriesApi.remove(memory.id);
             setDeleted(true);
             setConfirmingDelete(false);
+            toast({ type: "success", message: "Đã xoá ghi nhớ" });
           }}
         />
       ) : null}

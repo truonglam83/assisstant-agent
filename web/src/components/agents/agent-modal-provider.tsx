@@ -5,6 +5,7 @@ import type { MockAgent } from "@/lib/mock/agents";
 import { agentsApi } from "@/lib/api/agents";
 import { AgentFormModal } from "@/components/agents/agent-form-modal";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { useToast } from "@/components/ui/toast-provider";
 
 type ModalState =
   | { type: "closed" }
@@ -39,6 +40,7 @@ export function useAgentModal(): AgentModalContextValue {
  */
 export function AgentModalProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ModalState>({ type: "closed" });
+  const { toast } = useToast();
 
   const value: AgentModalContextValue = {
     openCreate: () => setState({ type: "create" }),
@@ -72,7 +74,9 @@ export function AgentModalProvider({ children }: { children: ReactNode }) {
           danger
           onCancel={() => value.openEdit(state.agent)}
           onConfirm={async () => {
+            const agentName = state.agent.name;
             await agentsApi.remove(state.agent.slug);
+            toast({ type: "success", message: `Đã xoá agent "${agentName}"` });
             value.close();
           }}
         />

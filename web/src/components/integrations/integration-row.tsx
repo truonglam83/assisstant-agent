@@ -4,11 +4,13 @@ import { useState } from "react";
 import type { MockIntegration } from "@/lib/mock/integrations";
 import { integrationsApi } from "@/lib/api/integrations";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { useToast } from "@/components/ui/toast-provider";
 
 export function IntegrationRow({ integration }: { integration: MockIntegration }) {
   const [connected, setConnected] = useState(integration.connected);
   const [confirmingDisconnect, setConfirmingDisconnect] = useState(false);
   const [pending, setPending] = useState(false);
+  const { toast } = useToast();
 
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border border-border bg-white p-4">
@@ -35,9 +37,12 @@ export function IntegrationRow({ integration }: { integration: MockIntegration }
         <button
           type="button"
           disabled={pending}
-          onClick={() => {
+          onClick={async () => {
             setPending(true);
-            integrationsApi.connect();
+            await integrationsApi.connect();
+            setConnected(true);
+            setPending(false);
+            toast({ type: "success", message: `Đã kết nối tài khoản ${integration.label}` });
           }}
           className="h-10 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
         >
@@ -56,6 +61,7 @@ export function IntegrationRow({ integration }: { integration: MockIntegration }
             await integrationsApi.disconnect();
             setConnected(false);
             setConfirmingDisconnect(false);
+            toast({ type: "info", message: `Đã ngắt kết nối ${integration.label}` });
           }}
         />
       ) : null}

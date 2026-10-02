@@ -1,6 +1,7 @@
 import { rulesApi } from "@/lib/api/rules";
 import { RuleRow } from "@/components/agents/rule-row";
 import { EmptyState } from "@/components/ui/empty-state";
+import { RulesActions } from "@/components/agents/rules-actions";
 
 /**
  * Nội dung tab Rule của 1 agent. Chỉ cần `agentId` — tự gọi API (mock) lấy
@@ -20,23 +21,7 @@ export async function AgentRulesView({ agentId }: { agentId: string }) {
               dung bạn nói trong tin nhắn.
             </p>
           </div>
-          <div className="flex shrink-0 gap-2">
-            <button
-              type="button"
-              className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-lg border border-border-input bg-white px-3.5 text-sm font-medium text-text md:flex-none"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-              Thêm rule
-            </button>
-            <button
-              type="button"
-              className="h-10 flex-1 rounded-lg bg-accent px-4.5 text-sm font-semibold text-white hover:bg-accent-hover md:flex-none"
-            >
-              Lưu
-            </button>
-          </div>
+          <RulesActions />
         </div>
 
         <div className="hidden grid-cols-[170px_minmax(0,1fr)_64px_96px] gap-3.5 px-4 text-xs font-semibold tracking-wide text-text-muted md:grid">

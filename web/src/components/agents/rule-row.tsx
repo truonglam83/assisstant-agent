@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import type { MockRule } from "@/lib/mock/rules";
 import { MOCK_RULE_SCOPES, MOCK_SCOPE_LABEL } from "@/lib/mock/rules";
+import { useToast } from "@/components/ui/toast-provider";
 
 /**
  * Một dòng rule trong tab Rule (docs/ui-mockup.html §3 "mail-action · Rule").
@@ -11,6 +15,11 @@ import { MOCK_RULE_SCOPES, MOCK_SCOPE_LABEL } from "@/lib/mock/rules";
  * trí lưới gốc, `md:order-*` giữ đúng thứ tự cột cũ.
  */
 export function RuleRow({ rule }: { rule: MockRule }) {
+  const [deleted, setDeleted] = useState(false);
+  const { toast } = useToast();
+
+  if (deleted) return null;
+
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-white p-3.5 md:grid md:grid-cols-[170px_minmax(0,1fr)_64px_96px] md:items-start md:gap-3.5">
       <div className="flex items-center gap-2 md:contents">
@@ -21,6 +30,13 @@ export function RuleRow({ rule }: { rule: MockRule }) {
           <select
             id={`rule-scope-${rule.id}`}
             defaultValue={rule.scope}
+            onChange={(e) => {
+              const scopeVal = e.target.value;
+              toast({
+                type: "info",
+                message: `Đã đổi phạm vi sang "${MOCK_SCOPE_LABEL[scopeVal] ?? scopeVal}"`,
+              });
+            }}
             className="h-10 w-full rounded-lg border border-border-input bg-white px-2.5 text-sm text-text"
           >
             {MOCK_RULE_SCOPES.map((scope) => (
@@ -33,16 +49,44 @@ export function RuleRow({ rule }: { rule: MockRule }) {
 
         <label className="flex h-10 shrink-0 items-center md:order-3">
           <span className="sr-only">Bật rule</span>
-          <input type="checkbox" defaultChecked={rule.enabled} className="h-5 w-5 accent-accent" />
+          <input
+            type="checkbox"
+            defaultChecked={rule.enabled}
+            onChange={(e) => {
+              toast({
+                type: "info",
+                message: e.target.checked
+                  ? `Đã kích hoạt rule "${rule.title}"`
+                  : `Đã tạm tắt rule "${rule.title}"`,
+              });
+            }}
+            className="h-5 w-5 accent-accent"
+          />
         </label>
 
         <div className="flex h-10 shrink-0 items-center gap-1 md:order-4">
           <button
             type="button"
             aria-label="Lịch sử"
-            className="flex h-10 w-9 items-center justify-center rounded-lg text-text-muted md:w-11"
+            onClick={() => {
+              toast({
+                type: "info",
+                message: `Xem lịch sử chỉnh sửa của "${rule.title}" (Mock)`,
+              });
+            }}
+            className="flex h-10 w-9 items-center justify-center rounded-lg text-text-muted transition-colors hover:bg-sidebar md:w-11"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
               <circle cx="12" cy="12" r="9" />
               <path d="M12 7v5l3 2" />
             </svg>
@@ -50,9 +94,26 @@ export function RuleRow({ rule }: { rule: MockRule }) {
           <button
             type="button"
             aria-label="Xoá"
-            className="flex h-10 w-9 items-center justify-center rounded-lg text-text-muted md:w-11"
+            onClick={() => {
+              setDeleted(true);
+              toast({
+                type: "success",
+                message: `Đã xoá rule "${rule.title}"`,
+              });
+            }}
+            className="flex h-10 w-9 items-center justify-center rounded-lg text-text-muted transition-colors hover:bg-danger-bg hover:text-danger md:w-11"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
               <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" />
             </svg>
           </button>

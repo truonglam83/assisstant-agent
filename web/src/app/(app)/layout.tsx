@@ -6,17 +6,17 @@ import { ToastProvider } from "@/components/ui/toast-provider";
 
 export default function AppLayout({ children }: LayoutProps<"/">) {
   return (
-    <AgentModalProvider>
-      <SidebarDrawerProvider>
-        <ToastProvider>
+    <ToastProvider>
+      <AgentModalProvider>
+        <SidebarDrawerProvider>
           <div className="flex h-screen bg-app-bg">
             <SidebarDrawer>
               <Sidebar />
             </SidebarDrawer>
             <main className="flex min-w-0 flex-1 flex-col">{children}</main>
           </div>
-        </ToastProvider>
-      </SidebarDrawerProvider>
-    </AgentModalProvider>
+        </SidebarDrawerProvider>
+      </AgentModalProvider>
+    </ToastProvider>
   );
 }

@@ -3,16 +3,23 @@
 import { useState } from "react";
 import type { MockApproval } from "@/lib/mock/schedules";
 import { approvalsApi } from "@/lib/api/approvals";
+import { useToast } from "@/components/ui/toast-provider";
 
 export function ApprovalCard({ approval }: { approval: MockApproval }) {
   const [decision, setDecision] = useState<"pending" | "approved" | "rejected">("pending");
   const [pending, setPending] = useState(false);
+  const { toast } = useToast();
 
   async function decide(next: "approved" | "rejected") {
     setPending(true);
     await approvalsApi.decide(approval.id, next);
     setDecision(next);
     setPending(false);
+    if (next === "approved") {
+      toast({ type: "success", message: `Đã duyệt hành động: ${approval.summary}` });
+    } else {
+      toast({ type: "info", message: `Đã từ chối hành động: ${approval.summary}` });
+    }
   }
 
   return (
