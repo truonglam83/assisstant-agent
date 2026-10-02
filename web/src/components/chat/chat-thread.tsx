@@ -5,6 +5,9 @@ import type { MockMessage } from "@/lib/mock/messages";
 import { messagesApi } from "@/lib/api/messages";
 import { MessageBubble } from "@/components/chat/message-bubble";
 import { ChatInputBar } from "@/components/chat/chat-input-bar";
+import { TypingIndicator } from "@/components/chat/typing-indicator";
+import { ChatSkeleton } from "@/components/chat/chat-skeleton";
+import { EmptyState } from "@/components/ui/empty-state";
 
 /**
  * Khung tin nhắn dùng chung cho Chat chung và mọi trang agent.
@@ -29,8 +32,21 @@ export function ChatThread({
   const [hasMore, setHasMore] = useState(false);
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
+  const [isWaitingResponse, setIsWaitingResponse] = useState(false);
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const oldestIdRef = useRef<string | undefined>(undefined);
+
+  /* ── Scroll helpers ── */
+
+  function scrollToBottom(smooth = true) {
+    requestAnimationFrame(() => {
+      const el = scrollRef.current;
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior: smooth ? "smooth" : "instant" });
+    });
+  }
+
+  /* ── Initial load ── */
 
   useEffect(() => {
     let cancelled = false;
@@ -41,16 +57,15 @@ export function ChatThread({
       oldestIdRef.current = page[0]?.id;
       setHasMore(more);
       setLoadingInitial(false);
-      requestAnimationFrame(() => {
-        const el = scrollRef.current;
-        if (el) el.scrollTop = el.scrollHeight;
-      });
+      scrollToBottom(false);
     });
 
     return () => {
       cancelled = true;
     };
   }, [conversationKey]);
+
+  /* ── Load older ── */
 
   const loadOlder = useCallback(async () => {
     if (loadingOlder || !hasMore) return;
@@ -74,50 +89,135 @@ export function ChatThread({
     });
   }, [conversationKey, hasMore, loadingOlder]);
 
+  /* ── Scroll handler (load older + show/hide scroll button) ── */
+
   function handleScroll() {
     const el = scrollRef.current;
-    if (el && el.scrollTop < 80) {
-      loadOlder();
-    }
+    if (!el) return;
+    if (el.scrollTop < 80) loadOlder();
+
+    const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    setShowScrollBtn(distFromBottom > 200);
   }
 
+  /* ── Send message ── */
+
   async function handleSend(content: string) {
-    const optimistic: MockMessage = { id: `local_${Date.now()}`, role: "user", content };
-    setMessages((prev) => [...prev, optimistic]);
-    requestAnimationFrame(() => {
-      const el = scrollRef.current;
-      if (el) el.scrollTop = el.scrollHeight;
+    const now = new Date().toLocaleTimeString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
     });
+    const optimistic: MockMessage = {
+      id: `local_${Date.now()}`,
+      role: "user",
+      content,
+      sentAt: now,
+    };
+    setMessages((prev) => [...prev, optimistic]);
+    setIsWaitingResponse(true);
+    scrollToBottom();
+
     await messagesApi.send(conversationKey, content);
+
+    // Mock: giả lập trợ lý đang gõ rồi trả lời sau 1.5s.
+    // Khi có API thật (SSE), thay bằng stream handler.
+    setTimeout(() => {
+      setIsWaitingResponse(false);
+      const response: MockMessage = {
+        id: `local_${Date.now()}_resp`,
+        role: "assistant",
+        content:
+          "Cảm ơn bạn, mình đã nhận tin nhắn. (Mock — API thật sẽ trả lời ở đây.)",
+        sentAt: new Date().toLocaleTimeString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
+      setMessages((prev) => [...prev, response]);
+      scrollToBottom();
+    }, 1500);
   }
+
+  /* ── Chat empty icon ── */
+
+  const chatIcon = (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" />
+    </svg>
+  );
+
+  /* ── Render ── */
 
   return (
     <>
-      <div
-        ref={scrollRef}
-        onScroll={handleScroll}
-        className="flex min-h-0 flex-1 flex-col items-center overflow-y-auto py-5"
-      >
-        <div className="flex w-[760px] max-w-full flex-col gap-4 px-4">
-          {loadingInitial ? (
-            <div className="py-8 text-center text-sm text-text-muted">Đang tải…</div>
-          ) : messages.length === 0 ? (
-            <div className="text-sm text-text-muted">{emptyLabel}</div>
-          ) : (
-            <>
-              {hasMore ? (
-                <div className="pb-1 text-center text-xs text-text-muted">
-                  {loadingOlder ? "Đang tải tin nhắn cũ…" : "Lướt lên để xem tin nhắn cũ"}
-                </div>
-              ) : (
-                <div className="pb-1 text-center text-xs text-text-muted">— Đầu cuộc trò chuyện —</div>
-              )}
-              {messages.map((message) => (
-                <MessageBubble key={message.id} message={message} />
-              ))}
-            </>
-          )}
+      {/* Wrapper: relative so the scroll-to-bottom button can float */}
+      <div className="relative min-h-0 flex-1">
+        {/* Scrollable message area */}
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="absolute inset-0 flex flex-col items-center overflow-y-auto px-4 py-5 [scrollbar-gutter:stable]"
+        >
+          <div className="flex w-full max-w-[720px] flex-col gap-5">
+            {loadingInitial ? (
+              <ChatSkeleton />
+            ) : messages.length === 0 ? (
+              <EmptyState
+                icon={chatIcon}
+                title="Chưa có tin nhắn"
+                description={emptyLabel}
+              />
+            ) : (
+              <>
+                {hasMore ? (
+                  <div className="pb-1 text-center text-xs text-text-muted">
+                    {loadingOlder ? "Đang tải tin nhắn cũ…" : "Lướt lên để xem tin nhắn cũ"}
+                  </div>
+                ) : (
+                  <div className="pb-1 text-center text-xs text-text-muted">— Đầu cuộc trò chuyện —</div>
+                )}
+                {messages.map((message) => (
+                  <MessageBubble key={message.id} message={message} />
+                ))}
+                {isWaitingResponse ? <TypingIndicator /> : null}
+              </>
+            )}
+          </div>
         </div>
+
+        {/* Scroll-to-bottom floating button */}
+        {showScrollBtn ? (
+          <button
+            type="button"
+            onClick={() => scrollToBottom()}
+            className="absolute bottom-4 left-1/2 z-10 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full border border-border bg-white shadow-md transition-all hover:bg-sidebar"
+            aria-label="Cuộn xuống cuối"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+        ) : null}
       </div>
 
       <ChatInputBar placeholder={placeholder} onSend={handleSend} />

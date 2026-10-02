@@ -12,6 +12,7 @@ export type MockMessage = {
   role: MockMessageRole;
   content: string;
   time?: string; // chỉ dùng cho role "event", ví dụ "07:00"
+  sentAt?: string; // giờ gửi, hiện khi hover, ví dụ "14:30"
 };
 
 const FILLER_TOPICS: Array<[string, string]> = [
@@ -53,19 +54,21 @@ function buildFiller(pairs: number, seed: number, dateLabel: string): MockMessag
 
 const GENERAL_TAIL: MockMessage[] = [
   { id: "ms_g_date", role: "date", content: "Thứ Ba, 29/09" },
-  { id: "ms_g1", role: "user", content: "Mail weekly nên gửi lúc mấy giờ thì ổn?" },
+  { id: "ms_g1", role: "user", content: "Mail weekly nên gửi lúc mấy giờ thì ổn?", sentAt: "09:15" },
   {
     id: "ms_g2",
     role: "assistant",
     content:
       "Thường nên gửi sáng thứ Sáu khoảng 7h–8h30, trước khi mọi người vào việc. Sếp đọc được tổng kết tuần ngay đầu ngày và còn thời gian phản hồi trước cuối tuần.",
+    sentAt: "09:15",
   },
-  { id: "ms_g3", role: "user", content: "Giờ mình muốn viết và gửi daily report" },
+  { id: "ms_g3", role: "user", content: "Giờ mình muốn viết và gửi daily report", sentAt: "09:20" },
   {
     id: "ms_g4",
     role: "assistant",
     content:
       "Việc này agent mail-action làm được. Bạn mở agent rồi nhắn người nhận và nội dung, agent sẽ soạn theo rule daily report.",
+    sentAt: "09:20",
   },
 ];
 
@@ -76,20 +79,23 @@ const MAIL_ACTION_TAIL: MockMessage[] = [
     role: "user",
     content:
       "Lịch 7h gửi mail daily report hằng sáng. Sáng thứ 6 thì gửi thêm weekly report cũng lúc 7h.",
+    sentAt: "08:30",
   },
   {
     id: "ms_11",
     role: "assistant",
     content:
       "Đã tạo 2 lịch: Daily report 7h thứ 2–6, Weekly report 7h thứ 6. Người nhận: anh Minh (to), chị Lan (cc). Trước 7h bạn nhắn nội dung cho mình nhé.",
+    sentAt: "08:31",
   },
   { id: "ms_20_date", role: "date", content: "Thứ Năm, 01/10" },
-  { id: "ms_20", role: "user", content: "Hôm qua đã làm API đăng nhập, todo: trang chat." },
+  { id: "ms_20", role: "user", content: "Hôm qua đã làm API đăng nhập, todo: trang chat.", sentAt: "22:40" },
   {
     id: "ms_21",
     role: "assistant",
     content:
       "Đã ghi nhận cho daily report hôm nay. 7h mình sẽ gửi. Muốn sửa thì nhắn trước 7h.",
+    sentAt: "22:40",
   },
   {
     id: "ms_22",
@@ -104,11 +110,13 @@ const MAIL_ACTION_TAIL: MockMessage[] = [
     role: "user",
     content:
       "Hôm qua làm trang chat, todo: kết nối Gmail. Weekly: tuần này xong đăng nhập và chat, tuần sau làm agent mail.",
+    sentAt: "23:10",
   },
   {
     id: "ms_31",
     role: "assistant",
     content: "Đã ghi nhận cho cả daily và weekly report hôm nay. Bản xem trước bạn xem lại giúp mình nhé.",
+    sentAt: "23:10",
   },
   {
     id: "ms_32",

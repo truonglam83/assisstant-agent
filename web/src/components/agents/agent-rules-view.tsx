@@ -1,5 +1,6 @@
 import { rulesApi } from "@/lib/api/rules";
 import { RuleRow } from "@/components/agents/rule-row";
+import { EmptyState } from "@/components/ui/empty-state";
 
 /**
  * Nội dung tab Rule của 1 agent. Chỉ cần `agentId` — tự gọi API (mock) lấy
@@ -47,7 +48,16 @@ export async function AgentRulesView({ agentId }: { agentId: string }) {
 
         {/* TODO: nối tool propose_rule_change khi có agent thật, thay vì chỉ đọc. */}
         {rules.length === 0 ? (
-          <div className="px-4 text-sm text-text-muted">Chưa có rule nào.</div>
+          <EmptyState
+            icon={
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+              </svg>
+            }
+            title="Chưa có rule nào"
+            description="Rule là cách làm: format, cấu trúc, văn phong, chữ ký. Thêm rule đầu tiên ở nút phía trên."
+          />
         ) : (
           rules.map((rule) => <RuleRow key={rule.id} rule={rule} />)
         )}

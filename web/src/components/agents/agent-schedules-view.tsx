@@ -4,6 +4,7 @@ import { costsApi } from "@/lib/api/costs";
 import { ApprovalCard } from "@/components/agents/approval-card";
 import { ScheduleEnableToggle } from "@/components/agents/schedule-enable-toggle";
 import { CostTiles } from "@/components/costs/cost-tiles";
+import { EmptyState } from "@/components/ui/empty-state";
 import type { ScheduleMode, ScheduleRunStatus } from "@/lib/mock/schedules";
 
 const MODE_LABEL: Record<ScheduleMode, string> = {
@@ -41,7 +42,7 @@ export async function AgentSchedulesView({ agentId }: { agentId: string }) {
         <section className="flex flex-col gap-2.5">
           <h2 className="text-sm font-semibold text-text-muted">Chờ duyệt</h2>
           {approvals.length === 0 ? (
-            <p className="text-sm text-text-muted">Không có việc nào đang chờ duyệt.</p>
+            <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-text-muted">Không có việc nào đang chờ duyệt.</p>
           ) : (
             <div className="flex flex-col gap-2.5">
               {approvals.map((approval) => (
@@ -54,7 +55,16 @@ export async function AgentSchedulesView({ agentId }: { agentId: string }) {
         <section className="flex flex-col gap-2.5">
           <h2 className="text-sm font-semibold text-text-muted">Lịch chạy</h2>
           {schedules.length === 0 ? (
-            <p className="text-sm text-text-muted">Agent này chưa có lịch chạy nào.</p>
+            <EmptyState
+              icon={
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v6l4 2" />
+                </svg>
+              }
+              title="Chưa có lịch chạy"
+              description="Tạo lịch chạy tự động cho agent này bằng cách nhắn tin trong tab Chat."
+            />
           ) : (
             <div className="flex flex-col gap-2.5">
               {schedules.map((schedule) => (
@@ -81,7 +91,7 @@ export async function AgentSchedulesView({ agentId }: { agentId: string }) {
         <section className="flex flex-col gap-2.5">
           <h2 className="text-sm font-semibold text-text-muted">Lịch sử chạy gần đây</h2>
           {runs.length === 0 ? (
-            <p className="text-sm text-text-muted">Chưa có lần chạy nào.</p>
+            <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-text-muted">Chưa có lần chạy nào.</p>
           ) : (
             <div className="flex flex-col gap-2 rounded-xl border border-border bg-white p-2">
               {runs.map((run) => (

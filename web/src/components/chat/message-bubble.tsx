@@ -1,5 +1,41 @@
 import type { MockMessage } from "@/lib/mock/messages";
 
+/* ─── Assistant avatar ─── */
+
+function AssistantAvatar() {
+  return (
+    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-soft">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="text-accent"
+        aria-hidden="true"
+      >
+        <path d="M12 1l2.39 7.61L22 11l-7.61 2.39L12 21l-2.39-7.61L2 11l7.61-2.39L12 1z" />
+      </svg>
+    </div>
+  );
+}
+
+/* ─── Hover timestamp ─── */
+
+function HoverTime({ time, align = "left" }: { time?: string; align?: "left" | "right" }) {
+  if (!time) return null;
+  return (
+    <div
+      className={`invisible mt-1 text-[11px] text-text-muted opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 ${
+        align === "right" ? "text-right" : "text-left"
+      }`}
+    >
+      {time}
+    </div>
+  );
+}
+
+/* ─── MessageBubble ─── */
+
 export function MessageBubble({ message }: { message: MockMessage }) {
   if (message.role === "date") {
     return (
@@ -30,15 +66,25 @@ export function MessageBubble({ message }: { message: MockMessage }) {
 
   if (message.role === "user") {
     return (
-      <div className="max-w-[560px] self-end rounded-[16px_16px_4px_16px] bg-accent px-4 py-3 text-[15px] leading-relaxed whitespace-pre-line text-white">
-        {message.content}
+      <div className="group flex max-w-[560px] flex-col items-end self-end">
+        <div className="rounded-[16px_16px_4px_16px] bg-accent px-4 py-3 text-[15px] leading-relaxed whitespace-pre-line text-white">
+          {message.content}
+        </div>
+        <HoverTime time={message.sentAt} align="right" />
       </div>
     );
   }
 
+  // Assistant message — avatar + bordered bubble + hover timestamp
   return (
-    <div className="max-w-[560px] self-start rounded-[16px_16px_16px_4px] border border-border bg-white px-4 py-3 text-[15px] leading-relaxed whitespace-pre-line text-text">
-      {message.content}
+    <div className="group flex max-w-[620px] items-start gap-2.5 self-start">
+      <AssistantAvatar />
+      <div className="flex flex-col">
+        <div className="rounded-[16px_16px_16px_4px] border border-border bg-white px-4 py-3 text-[15px] leading-relaxed whitespace-pre-line text-text shadow-xs">
+          {message.content}
+        </div>
+        <HoverTime time={message.sentAt} />
+      </div>
     </div>
   );
 }

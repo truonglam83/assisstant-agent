@@ -36,13 +36,13 @@ export function ChatInputBar({
   }
 
   return (
-    <div className="flex shrink-0 justify-center pb-7">
+    <div className="flex shrink-0 justify-center px-4 pb-6 pt-2">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           submit();
         }}
-        className="flex w-[720px] max-w-full items-end gap-2.5 rounded-2xl border border-border-input bg-white p-3 pl-4.5"
+        className="flex w-full max-w-[720px] items-end gap-2.5 rounded-2xl border border-border-input bg-white p-3 pl-4.5 shadow-xs"
       >
         <label htmlFor={id} className="sr-only">
           Tin nhắn
