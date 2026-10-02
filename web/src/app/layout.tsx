@@ -15,8 +15,8 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Trợ lý — Personal AI Agent",
-  description: "Trợ lý AI cá nhân",
+  title: "Assistant Agent — Personal AI Agent",
+  description: "Assistant - Trợ lý AI cá nhân",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

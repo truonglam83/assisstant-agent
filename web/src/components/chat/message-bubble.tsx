@@ -3,6 +3,7 @@
 import type { MockMessage } from "@/lib/mock/messages";
 import { useToast } from "@/components/ui/toast-provider";
 import { MarkdownContent } from "@/components/chat/markdown-content";
+import { AgentSuggestionCard } from "@/components/chat/cards/agent-suggestion-card";
 
 /* ─── Assistant avatar ─── */
 
@@ -121,6 +122,9 @@ export function MessageBubble({ message }: { message: MockMessage }) {
       <div className="flex min-w-0 flex-col">
         <div className="rounded-[16px_16px_16px_4px] border border-border bg-white px-4 py-3 text-[15px] leading-relaxed text-text shadow-xs">
           <MarkdownContent content={message.content} />
+          {message.suggestedAgentSlug ? (
+            <AgentSuggestionCard slug={message.suggestedAgentSlug} />
+          ) : null}
         </div>
         <div className="invisible mt-1 flex items-center gap-2 text-[11px] text-text-muted opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
           {message.sentAt ? <span>{message.sentAt}</span> : null}

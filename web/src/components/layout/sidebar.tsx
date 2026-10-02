@@ -44,10 +44,10 @@ export async function Sidebar() {
       className="flex h-full w-[260px] shrink-0 flex-col gap-1 overflow-y-auto border-r border-border bg-sidebar p-3.5"
     >
       <div className="flex items-center gap-2.5 px-2 pb-4.5 pt-1">
-        <div className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-accent font-serif text-[17px] font-semibold text-white">
-          T
+        <div className="flex h-[40px] w-[40px] items-center justify-center rounded-lg bg-accent font-serif text-[17px] font-semibold text-white">
+          2A
         </div>
-        <div className="flex-1 font-serif text-xl font-semibold">Trợ lý</div>
+        <div className="flex-1 font-serif text-xl font-semibold">Assistant Agent</div>
         <SidebarCloseButton />
       </div>
 

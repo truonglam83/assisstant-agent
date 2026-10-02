@@ -13,6 +13,7 @@ export type MockMessage = {
   content: string;
   time?: string; // chỉ dùng cho role "event", ví dụ "07:00"
   sentAt?: string; // giờ gửi, hiện khi hover, ví dụ "14:30"
+  suggestedAgentSlug?: string; // gợi ý mở agent, ví dụ "mail-action"
 };
 
 const FILLER_TOPICS: Array<[string, string]> = [
@@ -67,8 +68,9 @@ const GENERAL_TAIL: MockMessage[] = [
     id: "ms_g4",
     role: "assistant",
     content:
-      "Việc này agent **mail-action** làm được:\n- **Người nhận & nội dung**: bạn chỉ cần nhắn qua chat\n- **Định dạng chuẩn**: agent tự soạn theo rule `daily-report`\n\nBạn có thể chọn agent ở sidebar hoặc nhắn yêu cầu cụ thể tại đây.",
+      "Việc này agent **mail-action** làm được:\n- **Người nhận & nội dung**: bạn chỉ cần nhắn qua chat\n- **Định dạng chuẩn**: agent tự soạn theo rule `daily-report`\n\nBạn có thể chọn agent ở sidebar hoặc mở nhanh ngay bên dưới.",
     sentAt: "09:20",
+    suggestedAgentSlug: "mail-action",
   },
 ];
 

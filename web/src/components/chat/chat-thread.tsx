@@ -123,15 +123,24 @@ export function ChatThread({
     // Khi có API thật (SSE), thay bằng stream handler.
     setTimeout(() => {
       setIsWaitingResponse(false);
+      const lower = content.toLowerCase();
+      const isEmailQuery =
+        lower.includes("mail") ||
+        lower.includes("report") ||
+        lower.includes("báo cáo") ||
+        lower.includes("gửi");
+
       const response: MockMessage = {
         id: `local_${Date.now()}_resp`,
         role: "assistant",
-        content:
-          "Cảm ơn bạn, mình đã nhận tin nhắn. (Mock — API thật sẽ trả lời ở đây.)",
+        content: isEmailQuery
+          ? "Việc này agent **mail-action** làm được. Bạn có thể mở agent rồi nhắn người nhận và nội dung, agent sẽ soạn và gửi theo lịch."
+          : "Cảm ơn bạn, mình đã nhận tin nhắn. (Mock — API thật sẽ trả lời ở đây.)",
         sentAt: new Date().toLocaleTimeString("vi-VN", {
           hour: "2-digit",
           minute: "2-digit",
         }),
+        suggestedAgentSlug: isEmailQuery ? "mail-action" : undefined,
       };
       setMessages((prev) => [...prev, response]);
       scrollToBottom();

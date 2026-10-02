@@ -21,10 +21,10 @@ export default async function LoginPage(props: PageProps<"/login">) {
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-app-bg px-4">
       <div className="flex items-center gap-2.5">
         <div className="flex h-[34px] w-[34px] items-center justify-center rounded-lg bg-accent font-serif text-lg font-semibold text-white">
-          T
+          A
         </div>
         <div className="font-serif text-2xl font-semibold text-text">
-          Trợ lý
+          Assistant
         </div>
       </div>
 
