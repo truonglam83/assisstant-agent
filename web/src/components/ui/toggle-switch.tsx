@@ -16,11 +16,17 @@ export function ToggleSwitch({
   const [pending, setPending] = useState(false);
 
   async function handleToggle() {
-    const next = !checked;
+    const prev = checked;
+    const next = !prev;
     setChecked(next);
     setPending(true);
-    await onChange(next);
-    setPending(false);
+    try {
+      await onChange(next);
+    } catch {
+      setChecked(prev); // Rollback nếu onChange báo lỗi
+    } finally {
+      setPending(false);
+    }
   }
 
   return (

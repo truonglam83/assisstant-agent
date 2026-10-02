@@ -39,10 +39,16 @@ export function IntegrationRow({ integration }: { integration: MockIntegration }
           disabled={pending}
           onClick={async () => {
             setPending(true);
-            await integrationsApi.connect();
-            setConnected(true);
-            setPending(false);
-            toast({ type: "success", message: `Đã kết nối tài khoản ${integration.label}` });
+            try {
+              await integrationsApi.connect();
+              setConnected(true);
+              toast({ type: "success", message: `Đã kết nối tài khoản ${integration.label}` });
+            } catch (error) {
+              const msg = error instanceof Error ? error.message : "Kết nối thất bại";
+              toast({ type: "error", message: `Không thể kết nối: ${msg}` });
+            } finally {
+              setPending(false);
+            }
           }}
           className="h-10 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
         >
@@ -58,10 +64,16 @@ export function IntegrationRow({ integration }: { integration: MockIntegration }
           danger
           onCancel={() => setConfirmingDisconnect(false)}
           onConfirm={async () => {
-            await integrationsApi.disconnect();
-            setConnected(false);
-            setConfirmingDisconnect(false);
-            toast({ type: "info", message: `Đã ngắt kết nối ${integration.label}` });
+            try {
+              await integrationsApi.disconnect();
+              setConnected(false);
+              setConfirmingDisconnect(false);
+              toast({ type: "info", message: `Đã ngắt kết nối ${integration.label}` });
+            } catch (error) {
+              const msg = error instanceof Error ? error.message : "Ngắt kết nối thất bại";
+              toast({ type: "error", message: `Không thể ngắt kết nối: ${msg}` });
+              setConfirmingDisconnect(false);
+            }
           }}
         />
       ) : null}

@@ -23,6 +23,7 @@ type ModalState =
 
 export type AgentModalContextValue = {
   agents: MockAgent[];
+  isLoaded: boolean;
   refreshAgents: () => Promise<void>;
   openCreate: () => void;
   openEdit: (agent: MockAgent) => void;
@@ -47,13 +48,18 @@ export function useAgentModal(): AgentModalContextValue {
 export function AgentModalProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ModalState>({ type: "closed" });
   const [agents, setAgents] = useState<MockAgent[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const pathname = usePathname();
 
   const refreshAgents = useCallback(async () => {
-    const list = await agentsApi.list();
-    setAgents([...list]);
+    try {
+      const list = await agentsApi.list();
+      setAgents([...list]);
+    } finally {
+      setIsLoaded(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -62,6 +68,7 @@ export function AgentModalProvider({ children }: { children: ReactNode }) {
 
   const value: AgentModalContextValue = {
     agents,
+    isLoaded,
     refreshAgents,
     openCreate: () => setState({ type: "create" }),
     openEdit: (agent) => setState({ type: "edit", agent }),

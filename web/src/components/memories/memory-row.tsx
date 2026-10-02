@@ -24,24 +24,39 @@ export function MemoryRow({ memory }: { memory: MockMemory }) {
   const { toast } = useToast();
 
   async function togglePin() {
+    const previousPinned = pinned;
     const next = !pinned;
     setPinned(next);
     setPending(true);
-    await memoriesApi.update(memory.id, { pinned: next });
-    setPending(false);
-    toast({
-      type: "info",
-      message: next ? "Đã ghim ghi nhớ lên đầu" : "Đã bỏ ghim ghi nhớ",
-    });
+    try {
+      await memoriesApi.update(memory.id, { pinned: next });
+      toast({
+        type: "info",
+        message: next ? "Đã ghim ghi nhớ lên đầu" : "Đã bỏ ghim ghi nhớ",
+      });
+    } catch (error) {
+      setPinned(previousPinned); // Rollback
+      const msg = error instanceof Error ? error.message : "Thao tác thất bại";
+      toast({ type: "error", message: `Không thể cập nhật ghim: ${msg}` });
+    } finally {
+      setPending(false);
+    }
   }
 
   async function saveEdit() {
+    if (!draft.trim()) return;
     setPending(true);
-    await memoriesApi.update(memory.id, { content: draft });
-    setContent(draft);
-    setEditing(false);
-    setPending(false);
-    toast({ type: "success", message: "Đã cập nhật nội dung ghi nhớ" });
+    try {
+      await memoriesApi.update(memory.id, { content: draft });
+      setContent(draft);
+      setEditing(false);
+      toast({ type: "success", message: "Đã cập nhật nội dung ghi nhớ" });
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Thao tác thất bại";
+      toast({ type: "error", message: `Không thể lưu ghi nhớ: ${msg}` });
+    } finally {
+      setPending(false);
+    }
   }
 
   if (deleted) return null;
@@ -146,10 +161,16 @@ export function MemoryRow({ memory }: { memory: MockMemory }) {
           danger
           onCancel={() => setConfirmingDelete(false)}
           onConfirm={async () => {
-            await memoriesApi.remove(memory.id);
-            setDeleted(true);
-            setConfirmingDelete(false);
-            toast({ type: "success", message: "Đã xoá ghi nhớ" });
+            try {
+              await memoriesApi.remove(memory.id);
+              setDeleted(true);
+              setConfirmingDelete(false);
+              toast({ type: "success", message: "Đã xoá ghi nhớ" });
+            } catch (error) {
+              const msg = error instanceof Error ? error.message : "Thao tác thất bại";
+              toast({ type: "error", message: `Không thể xoá ghi nhớ: ${msg}` });
+              setConfirmingDelete(false);
+            }
           }}
         />
       ) : null}

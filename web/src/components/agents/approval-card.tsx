@@ -12,13 +12,19 @@ export function ApprovalCard({ approval }: { approval: MockApproval }) {
 
   async function decide(next: "approved" | "rejected") {
     setPending(true);
-    await approvalsApi.decide(approval.id, next);
-    setDecision(next);
-    setPending(false);
-    if (next === "approved") {
-      toast({ type: "success", message: `Đã duyệt hành động: ${approval.summary}` });
-    } else {
-      toast({ type: "info", message: `Đã từ chối hành động: ${approval.summary}` });
+    try {
+      await approvalsApi.decide(approval.id, next);
+      setDecision(next);
+      if (next === "approved") {
+        toast({ type: "success", message: `Đã duyệt hành động: ${approval.summary}` });
+      } else {
+        toast({ type: "info", message: `Đã từ chối hành động: ${approval.summary}` });
+      }
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Thao tác thất bại";
+      toast({ type: "error", message: `Không thể cập nhật: ${msg}` });
+    } finally {
+      setPending(false);
     }
   }
 

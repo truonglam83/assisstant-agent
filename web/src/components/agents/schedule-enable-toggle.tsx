@@ -17,12 +17,18 @@ export function ScheduleEnableToggle({
     <ToggleSwitch
       defaultChecked={defaultEnabled}
       label="Bật/tắt lịch"
-      onChange={(next) => {
-        schedulesApi.toggle(scheduleId, next);
-        toast({
-          type: "info",
-          message: next ? "Đã kích hoạt lịch chạy" : "Đã tạm dừng lịch chạy",
-        });
+      onChange={async (next) => {
+        try {
+          await schedulesApi.toggle(scheduleId, next);
+          toast({
+            type: "info",
+            message: next ? "Đã kích hoạt lịch chạy" : "Đã tạm dừng lịch chạy",
+          });
+        } catch (error) {
+          const msg = error instanceof Error ? error.message : "Thao tác thất bại";
+          toast({ type: "error", message: `Không thể cập nhật lịch: ${msg}` });
+          throw error; // Ném lỗi để ToggleSwitch tự rollback về trạng thái cũ
+        }
       }}
     />
   );

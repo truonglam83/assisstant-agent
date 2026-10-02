@@ -19,6 +19,9 @@ Nếu detail doc khác với IDEAS.md thì **theo detail doc**.
 - Ý tưởng không phải quyết định. Chi tiết kỹ thuật được **chốt cùng chủ dự án** khi bắt đầu làm từng mảng.
 - Gặp chỗ cần quyết định: liệt kê các lựa chọn + đề xuất, **hỏi trước rồi mới viết** doc hoặc code. Không tự chốt.
 - Chốt xong thì ghi vào mục **"Đã chốt"** của detail doc tương ứng và vào nhật ký quyết định trong `00-overview.md`, rồi mới code.
+- **Kỷ luật Coding (Bắt buộc)**:
+  - **Trước khi code**: Luôn xác định và đối chiếu với bộ skill [skills/frontend-developer/SKILL.md](skills/frontend-developer/SKILL.md) (Guard clauses, triệt tiêu Derived state với useEffect, ranh giới Server/Client Component, TypeScript an toàn 100% không `any`, Optimistic UI có rollback, cleanup timer/listener).
+  - **Sau khi code**: Bắt buộc tự review/check lại 1 lần theo các tiêu chí của skill và kiểm tra biên dịch (`tsc --noEmit`) trước khi bàn giao.
 
 ## Thứ tự làm
 

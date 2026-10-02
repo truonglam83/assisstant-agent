@@ -8,6 +8,7 @@ import { ChatInputBar } from "@/components/chat/chat-input-bar";
 import { TypingIndicator } from "@/components/chat/typing-indicator";
 import { ChatSkeleton } from "@/components/chat/chat-skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
+import { useToast } from "@/components/ui/toast-provider";
 
 /**
  * Khung tin nhắn dùng chung cho Chat chung và mọi trang agent.
@@ -36,6 +37,14 @@ export function ChatThread({
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const oldestIdRef = useRef<string | undefined>(undefined);
+  const mockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    return () => {
+      if (mockTimeoutRef.current) clearTimeout(mockTimeoutRef.current);
+    };
+  }, []);
 
   /* ── Scroll helpers ── */
 
@@ -117,11 +126,22 @@ export function ChatThread({
     setIsWaitingResponse(true);
     scrollToBottom();
 
-    await messagesApi.send(conversationKey, content);
+    if (mockTimeoutRef.current) {
+      clearTimeout(mockTimeoutRef.current);
+    }
+
+    try {
+      await messagesApi.send(conversationKey, content);
+    } catch (error) {
+      setIsWaitingResponse(false);
+      const msg = error instanceof Error ? error.message : "Gửi tin nhắn thất bại";
+      toast({ type: "error", message: msg });
+      return;
+    }
 
     // Mock: giả lập trợ lý đang gõ rồi trả lời sau 1.5s.
-    // Khi có API thật (SSE), thay bằng stream handler.
-    setTimeout(() => {
+    // Khi có API thật (SSE, docs/02-backend-api.md §3.3), thay bằng stream handler.
+    mockTimeoutRef.current = setTimeout(() => {
       setIsWaitingResponse(false);
       const lower = content.toLowerCase();
       const isEmailQuery =
