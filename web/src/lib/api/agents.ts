@@ -42,22 +42,33 @@ export type AgentFormInput = {
 
 import { ENDPOINTS } from "./endpoints";
 import { callApi } from "./http";
-import { getMockAgent, MOCK_AGENTS, type MockAgent } from "@/lib/mock/agents";
+import {
+  addMockAgent,
+  getMockAgent,
+  MOCK_AGENTS,
+  removeMockAgent,
+  updateMockAgent,
+  type MockAgent,
+} from "@/lib/mock/agents";
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function slugify(name: string) {
-  return name.trim().toLowerCase().replace(/\s+/g, "-");
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
 }
 
 export const agentsApi = {
   /** Danh sách agent — cho Sidebar. */
   async list(): Promise<MockAgent[]> {
     return callApi(ENDPOINTS.LIST_AGENTS, { method: "GET" }, async () => {
-      await delay(150);
-      return MOCK_AGENTS;
+      await delay(100);
+      return [...MOCK_AGENTS];
     });
   },
 
@@ -67,7 +78,7 @@ export const agentsApi = {
       ? ENDPOINTS.GET_AGENT_BY_SLUG.replace(":slug", slug)
       : "";
     return callApi(endpoint, { method: "GET" }, async () => {
-      await delay(150);
+      await delay(100);
       return getMockAgent(slug);
     });
   },
@@ -77,9 +88,22 @@ export const agentsApi = {
       ENDPOINTS.CREATE_AGENT,
       { method: "POST", body: JSON.stringify(input) },
       async () => {
-        console.log("[mock agentsApi.create]", input);
-        await delay(400);
-        return { slug: slugify(input.name) };
+        await delay(250);
+        const slug = slugify(input.name) || `agent-${Date.now()}`;
+        const newAgent: MockAgent = {
+          id: `ag_${Date.now()}`,
+          slug,
+          name: input.name,
+          description: input.description,
+          instructions: input.instructions,
+          canDo: input.canDo.split("\n").filter(Boolean),
+          cannotDo: input.cannotDo.split("\n").filter(Boolean),
+          tools: input.tools,
+          skills: input.skills,
+          model: input.model,
+        };
+        addMockAgent(newAgent);
+        return { slug };
       },
     );
   },
@@ -90,8 +114,17 @@ export const agentsApi = {
       endpoint,
       { method: "PATCH", body: JSON.stringify(input) },
       async () => {
-        console.log("[mock agentsApi.update]", slug, input);
-        await delay(400);
+        await delay(250);
+        updateMockAgent(slug, {
+          name: input.name,
+          description: input.description,
+          instructions: input.instructions,
+          canDo: input.canDo.split("\n").filter(Boolean),
+          cannotDo: input.cannotDo.split("\n").filter(Boolean),
+          tools: input.tools,
+          skills: input.skills,
+          model: input.model,
+        });
       },
     );
   },
@@ -99,8 +132,8 @@ export const agentsApi = {
   async remove(slug: string): Promise<void> {
     const endpoint = ENDPOINTS.DELETE_AGENT ? `${ENDPOINTS.DELETE_AGENT}/${slug}` : "";
     return callApi(endpoint, { method: "DELETE" }, async () => {
-      console.log("[mock agentsApi.remove]", slug);
-      await delay(400);
+      await delay(250);
+      removeMockAgent(slug);
     });
   },
 };

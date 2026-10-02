@@ -67,7 +67,7 @@ const GENERAL_TAIL: MockMessage[] = [
     id: "ms_g4",
     role: "assistant",
     content:
-      "Việc này agent mail-action làm được. Bạn mở agent rồi nhắn người nhận và nội dung, agent sẽ soạn theo rule daily report.",
+      "Việc này agent **mail-action** làm được:\n- **Người nhận & nội dung**: bạn chỉ cần nhắn qua chat\n- **Định dạng chuẩn**: agent tự soạn theo rule `daily-report`\n\nBạn có thể chọn agent ở sidebar hoặc nhắn yêu cầu cụ thể tại đây.",
     sentAt: "09:20",
   },
 ];
@@ -85,7 +85,7 @@ const MAIL_ACTION_TAIL: MockMessage[] = [
     id: "ms_11",
     role: "assistant",
     content:
-      "Đã tạo 2 lịch: Daily report 7h thứ 2–6, Weekly report 7h thứ 6. Người nhận: anh Minh (to), chị Lan (cc). Trước 7h bạn nhắn nội dung cho mình nhé.",
+      "Đã tạo **2 lịch chạy** tự động:\n- **Daily report**: 07:00 (Thứ 2 – Thứ 6)\n- **Weekly report**: 07:00 (Thứ 6)\n\n*Người nhận mặc định*: anh Minh (`to`), chị Lan (`cc`). Trước 7h sáng bạn nhắn tóm tắt công việc cho mình nhé!",
     sentAt: "08:31",
   },
   { id: "ms_20_date", role: "date", content: "Thứ Năm, 01/10" },

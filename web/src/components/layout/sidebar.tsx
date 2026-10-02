@@ -1,7 +1,7 @@
 import { auth, signOut } from "@/auth";
 import { agentsApi } from "@/lib/api/agents";
 import { NavLink } from "@/components/ui/nav-link";
-import { NewAgentButton } from "@/components/agents/new-agent-button";
+import { SidebarAgentsList } from "@/components/layout/sidebar-agents-list";
 import { SidebarCloseButton } from "@/components/layout/sidebar-close-button";
 
 const navIcon = {
@@ -62,28 +62,7 @@ export async function Sidebar() {
         Chat chung
       </NavLink>
 
-      <div className="px-3 pb-1.5 pt-5 text-xs font-semibold tracking-wide text-text-muted">
-        AGENTS
-      </div>
-
-      {agents.length === 0 ? (
-        <div className="px-3 py-2 text-sm text-text-muted">Chưa có agent nào</div>
-      ) : (
-        agents.map((agent) => (
-          <NavLink
-            key={agent.id}
-            href={`/agents/${agent.slug}`}
-            className="flex items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-[15px]"
-            activeClassName={navActive}
-            inactiveClassName={navInactive}
-          >
-            {navIcon.mail}
-            <span className="flex-1 truncate">{agent.name}</span>
-          </NavLink>
-        ))
-      )}
-
-      <NewAgentButton />
+      <SidebarAgentsList initialAgents={agents} />
 
       <div className="grow" />
 

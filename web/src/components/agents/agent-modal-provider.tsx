@@ -1,6 +1,14 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
+import { usePathname, useRouter } from "next/navigation";
 import type { MockAgent } from "@/lib/mock/agents";
 import { agentsApi } from "@/lib/api/agents";
 import { AgentFormModal } from "@/components/agents/agent-form-modal";
@@ -13,7 +21,9 @@ type ModalState =
   | { type: "edit"; agent: MockAgent }
   | { type: "delete"; agent: MockAgent };
 
-type AgentModalContextValue = {
+export type AgentModalContextValue = {
+  agents: MockAgent[];
+  refreshAgents: () => Promise<void>;
   openCreate: () => void;
   openEdit: (agent: MockAgent) => void;
   openDelete: (agent: MockAgent) => void;
@@ -31,18 +41,28 @@ export function useAgentModal(): AgentModalContextValue {
 }
 
 /**
- * Quản lý popup tạo/sửa/xoá agent, đặt ở gốc layout (app) để cả Sidebar
- * (nút "+ New agent") lẫn header trang agent (nút ⚙️) đều mở được popup.
- *
- * Lưu ý: chưa có state/store dùng chung (docs/01-frontend.md §4 "Cách quản lý
- * dữ liệu"), nên tạo/sửa/xoá xong chỉ đóng popup — danh sách agent ở Sidebar
- * chưa tự cập nhật. Sẽ nối lại khi có mock API hoặc backend thật.
+ * Quản lý popup tạo/sửa/xoá agent và đồng bộ danh sách agent ở Sidebar.
+ * Đặt ở gốc layout (app) để Sidebar và mọi trang đều dùng chung.
  */
 export function AgentModalProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ModalState>({ type: "closed" });
+  const [agents, setAgents] = useState<MockAgent[]>([]);
   const { toast } = useToast();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const refreshAgents = useCallback(async () => {
+    const list = await agentsApi.list();
+    setAgents([...list]);
+  }, []);
+
+  useEffect(() => {
+    refreshAgents();
+  }, [refreshAgents]);
 
   const value: AgentModalContextValue = {
+    agents,
+    refreshAgents,
     openCreate: () => setState({ type: "create" }),
     openEdit: (agent) => setState({ type: "edit", agent }),
     openDelete: (agent) => setState({ type: "delete", agent }),
@@ -54,7 +74,17 @@ export function AgentModalProvider({ children }: { children: ReactNode }) {
       {children}
 
       {state.type === "create" ? (
-        <AgentFormModal mode="create" onClose={value.close} />
+        <AgentFormModal
+          mode="create"
+          onClose={value.close}
+          onSuccess={async (newSlug) => {
+            await refreshAgents();
+            value.close();
+            if (newSlug) {
+              router.push(`/agents/${newSlug}/rules`);
+            }
+          }}
+        />
       ) : null}
 
       {state.type === "edit" ? (
@@ -62,6 +92,11 @@ export function AgentModalProvider({ children }: { children: ReactNode }) {
           mode="edit"
           agent={state.agent}
           onClose={value.close}
+          onSuccess={async () => {
+            await refreshAgents();
+            router.refresh();
+            value.close();
+          }}
           onRequestDelete={() => value.openDelete(state.agent)}
         />
       ) : null}
@@ -75,9 +110,14 @@ export function AgentModalProvider({ children }: { children: ReactNode }) {
           onCancel={() => value.openEdit(state.agent)}
           onConfirm={async () => {
             const agentName = state.agent.name;
-            await agentsApi.remove(state.agent.slug);
+            const deletedSlug = state.agent.slug;
+            await agentsApi.remove(deletedSlug);
+            await refreshAgents();
             toast({ type: "success", message: `Đã xoá agent "${agentName}"` });
             value.close();
+            if (pathname.includes(`/agents/${deletedSlug}`)) {
+              router.push("/");
+            }
           }}
         />
       ) : null}

@@ -53,11 +53,13 @@ export function AgentFormModal({
   mode,
   agent,
   onClose,
+  onSuccess,
   onRequestDelete,
 }: {
   mode: "create" | "edit";
   agent?: MockAgent;
   onClose: () => void;
+  onSuccess?: (slug?: string) => void;
   onRequestDelete?: () => void;
 }) {
   const [name, setName] = useState(agent?.name ?? "");
@@ -96,13 +98,22 @@ export function AgentFormModal({
 
     try {
       if (mode === "create") {
-        await agentsApi.create(input);
+        const res = await agentsApi.create(input);
         toast({ type: "success", message: `Đã tạo agent "${input.name}"` });
+        if (onSuccess) {
+          onSuccess(res.slug);
+        } else {
+          onClose();
+        }
       } else if (agent) {
         await agentsApi.update(agent.slug, input);
         toast({ type: "success", message: `Đã cập nhật agent "${input.name}"` });
+        if (onSuccess) {
+          onSuccess(agent.slug);
+        } else {
+          onClose();
+        }
       }
-      onClose();
     } catch {
       setError("Có lỗi xảy ra, thử lại nhé.");
       toast({ type: "error", message: "Có lỗi xảy ra, thử lại nhé." });

@@ -2,6 +2,7 @@
 
 import type { MockMessage } from "@/lib/mock/messages";
 import { useToast } from "@/components/ui/toast-provider";
+import { MarkdownContent } from "@/components/chat/markdown-content";
 
 /* ─── Assistant avatar ─── */
 
@@ -117,9 +118,9 @@ export function MessageBubble({ message }: { message: MockMessage }) {
   return (
     <div className="group flex max-w-[620px] items-start gap-2.5 self-start">
       <AssistantAvatar />
-      <div className="flex flex-col">
-        <div className="rounded-[16px_16px_16px_4px] border border-border bg-white px-4 py-3 text-[15px] leading-relaxed whitespace-pre-line text-text shadow-xs">
-          {message.content}
+      <div className="flex min-w-0 flex-col">
+        <div className="rounded-[16px_16px_16px_4px] border border-border bg-white px-4 py-3 text-[15px] leading-relaxed text-text shadow-xs">
+          <MarkdownContent content={message.content} />
         </div>
         <div className="invisible mt-1 flex items-center gap-2 text-[11px] text-text-muted opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
           {message.sentAt ? <span>{message.sentAt}</span> : null}

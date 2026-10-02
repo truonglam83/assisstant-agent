@@ -50,6 +50,34 @@ export function getMockAgent(slug: string): MockAgent | undefined {
   return MOCK_AGENTS.find((agent) => agent.slug === slug);
 }
 
+export function addMockAgent(agent: MockAgent): MockAgent {
+  const existingIdx = MOCK_AGENTS.findIndex((a) => a.slug === agent.slug || a.id === agent.id);
+  if (existingIdx !== -1) {
+    MOCK_AGENTS[existingIdx] = agent;
+  } else {
+    MOCK_AGENTS.push(agent);
+  }
+  return agent;
+}
+
+export function updateMockAgent(slug: string, updates: Partial<MockAgent>): MockAgent | undefined {
+  const idx = MOCK_AGENTS.findIndex((a) => a.slug === slug);
+  if (idx !== -1) {
+    MOCK_AGENTS[idx] = { ...MOCK_AGENTS[idx], ...updates };
+    return MOCK_AGENTS[idx];
+  }
+  return undefined;
+}
+
+export function removeMockAgent(slug: string): boolean {
+  const idx = MOCK_AGENTS.findIndex((a) => a.slug === slug);
+  if (idx !== -1) {
+    MOCK_AGENTS.splice(idx, 1);
+    return true;
+  }
+  return false;
+}
+
 /** Tên hiển thị cho 1 agentId — dùng ở chỗ chỉ có id (ví dụ bảng chi phí theo agent). */
 export function getMockAgentNameById(agentId: string): string {
   if (agentId === GENERAL_AGENT_ID) return "Chat chung";
