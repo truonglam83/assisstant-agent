@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal AI Agent – UI sơ bộ</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Be Vietnam Pro',sans-serif;color:#1D1C1A;background:#D9D5CB}
+a{color:#2F5D50}a:hover{color:#1F4238}
+.topbar{position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px;background:#1D1C1A}
+.topbar a{color:#E9E6DE;text-decoration:none;font-size:14px;padding:8px 12px;border-radius:8px}
+.topbar a.on{background:#2F5D50;color:#fff;font-weight:600}
+.screen{display:none;padding:24px 16px 48px;overflow-x:auto}
+.screen.on{display:block}
+.frame{width:max-content;margin:0 auto;box-shadow:0 1px 0 #C8C3B7;border-radius:12px;overflow:hidden}
+</style>
+</head>
+<body>
+<nav class="topbar" aria-label="Chọn màn hình"><a href="#main" data-s="main">1. Chat chung</a><a href="#mail" data-s="mail">2. mail-action · Chat</a><a href="#rule" data-s="rule">3. mail-action · Rule</a><a href="#new" data-s="new">4. Tạo agent mới</a><a href="#mobile" data-s="mobile">5. Điện thoại</a></nav>
+<section id="main" class="screen" aria-label="1. Chat chung"><div class="frame">
+
+<div style="width: 1280px; height: 900px; display: flex; background: #F4F2EC; font-family: 'Be Vietnam Pro', sans-serif; color: #1D1C1A">
+<nav aria-label="Điều hướng chính" style="width: 260px; flex-shrink: 0; box-sizing: border-box; height: 100%; background: #ECE9E1; border-right: 1px solid #DDD8CC; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 4px 8px 18px 8px">
+<div style="width: 30px; height: 30px; border-radius: 8px; background: #2F5D50; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-size: 17px; font-weight: 600">T</div>
+<div style="font-family: Fraunces, serif; font-size: 20px; font-weight: 600">Trợ lý</div>
+</div>
+<a href="#main" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #FFFFFF; color: #1D1C1A; text-decoration: none; font-size: 15px; font-weight: 600; border: 1px solid #DDD8CC"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg>Chat chung</a>
+<div style="padding: 20px 12px 6px 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #5E5B55">AGENTS</div>
+<a href="#mail" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><span style="flex-grow: 1">mail-action</span><span style="min-width: 20px; height: 20px; padding: 0 6px; box-sizing: border-box; border-radius: 10px; background: #2F5D50; color: #FFFFFF; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">2</span></a>
+<a href="#new" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #2F5D50; text-decoration: none; font-size: 15px; font-weight: 500; border: 1px dashed #9FB5AC; margin-top: 4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New agent</a>
+<div style="flex-grow: 1"></div>
+<a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"></path></svg><span style="flex-grow: 1">Lịch &amp; duyệt</span><span style="min-width: 20px; height: 20px; padding: 0 6px; box-sizing: border-box; border-radius: 10px; background: #B5561F; color: #FFFFFF; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">1</span></a>
+<a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Trí nhớ</a>
+<div style="display: flex; align-items: center; gap: 10px; padding: 14px 12px 4px 12px; border-top: 1px solid #DDD8CC; margin-top: 8px">
+<div style="width: 30px; height: 30px; border-radius: 15px; background: #C9C2B2; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600">T</div>
+<div style="font-size: 14px">Tuấn</div>
+</div>
+</nav>
+<main style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0">
+<header style="height: 68px; box-sizing: border-box; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #DDD8CC">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h1 style="margin: 0; font-family: Fraunces, serif; font-size: 22px; font-weight: 600">Chat chung</h1>
+<div style="font-size: 13px; color: #5E5B55">Hỏi đáp, tra cứu · gợi ý agent phù hợp</div>
+</div>
+</header>
+<div style="flex-grow: 1; padding: 28px 0; display: flex; flex-direction: column; align-items: center; gap: 20px; overflow: hidden">
+<div style="width: 720px; display: flex; flex-direction: column; gap: 20px">
+<div style="align-self: flex-end; max-width: 520px; padding: 12px 16px; border-radius: 16px 16px 4px 16px; background: #2F5D50; color: #FFFFFF; font-size: 15px; line-height: 1.5">Mail weekly nên gửi lúc mấy giờ thì ổn?</div>
+<div style="max-width: 620px; font-size: 15px; line-height: 1.65">Thường nên gửi <strong>sáng thứ Sáu khoảng 7h–8h30</strong>, trước khi mọi người vào việc. Sếp đọc được tổng kết tuần ngay đầu ngày và còn thời gian phản hồi trước cuối tuần.</div>
+<div style="align-self: flex-end; max-width: 520px; padding: 12px 16px; border-radius: 16px 16px 4px 16px; background: #2F5D50; color: #FFFFFF; font-size: 15px; line-height: 1.5">Giờ mình muốn viết và gửi daily report</div>
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 620px">
+<div style="font-size: 15px; line-height: 1.65">Việc này agent <strong>mail-action</strong> làm được. Bạn mở agent rồi nhắn người nhận và nội dung, agent sẽ soạn theo rule daily report.</div>
+<div style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid #DDD8CC">
+<div style="width: 40px; height: 40px; border-radius: 10px; background: #E3ECE8; color: #2F5D50; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 15px; font-weight: 600">mail-action</div>
+<div style="font-size: 13px; color: #5E5B55">Soạn và gửi mail, daily/weekly report, gửi theo lịch</div>
+</div>
+<a href="#mail" style="padding: 10px 16px; border-radius: 10px; background: #2F5D50; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 600">Mở agent</a>
+</div>
+</div>
+</div>
+</div>
+<div style="padding: 0 0 28px 0; display: flex; justify-content: center">
+<form style="width: 720px; box-sizing: border-box; display: flex; align-items: flex-end; gap: 10px; padding: 12px 12px 12px 18px; border-radius: 18px; background: #FFFFFF; border: 1px solid #CFC9BC">
+<label for="main-ask" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Tin nhắn</label>
+<textarea id="main-ask" rows="2" placeholder="Hỏi gì cũng được…" style="flex-grow: 1; border: none; resize: none; font-family: 'Be Vietnam Pro', sans-serif; font-size: 15px; line-height: 1.5; color: #1D1C1A; background: transparent; outline: none"></textarea>
+<button type="button" aria-label="Gửi" style="width: 44px; height: 44px; border-radius: 12px; border: none; background: #2F5D50; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+</form>
+</div>
+</main>
+</div>
+</div></section><section id="mail" class="screen" aria-label="2. mail-action · Chat"><div class="frame">
+
+<div style="width: 1280px; height: 900px; display: flex; background: #F4F2EC; font-family: 'Be Vietnam Pro', sans-serif; color: #1D1C1A">
+<nav aria-label="Điều hướng chính" style="width: 260px; flex-shrink: 0; box-sizing: border-box; height: 100%; background: #ECE9E1; border-right: 1px solid #DDD8CC; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 4px 8px 18px 8px">
+<div style="width: 30px; height: 30px; border-radius: 8px; background: #2F5D50; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-size: 17px; font-weight: 600">T</div>
+<div style="font-family: Fraunces, serif; font-size: 20px; font-weight: 600">Trợ lý</div>
+</div>
+<a href="#main" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg>Chat chung</a>
+<div style="padding: 20px 12px 6px 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #5E5B55">AGENTS</div>
+<a href="#mail" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #DDD8CC; color: #1D1C1A; text-decoration: none; font-size: 15px; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><span style="flex-grow: 1">mail-action</span></a>
+<a href="#new" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #2F5D50; text-decoration: none; font-size: 15px; font-weight: 500; border: 1px dashed #9FB5AC; margin-top: 4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New agent</a>
+<div style="flex-grow: 1"></div>
+<a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"></path></svg><span style="flex-grow: 1">Lịch &amp; duyệt</span><span style="min-width: 20px; height: 20px; padding: 0 6px; box-sizing: border-box; border-radius: 10px; background: #B5561F; color: #FFFFFF; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">1</span></a>
+<a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Trí nhớ</a>
+<div style="display: flex; align-items: center; gap: 10px; padding: 14px 12px 4px 12px; border-top: 1px solid #DDD8CC; margin-top: 8px">
+<div style="width: 30px; height: 30px; border-radius: 15px; background: #C9C2B2; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600">T</div>
+<div style="font-size: 14px">Tuấn</div>
+</div>
+</nav>
+<main style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0">
+<header style="height: 68px; box-sizing: border-box; padding: 0 32px; display: flex; align-items: center; gap: 24px; border-bottom: 1px solid #DDD8CC">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 34px; height: 34px; border-radius: 9px; background: #E3ECE8; color: #2F5D50; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></div>
+<h1 style="margin: 0; font-family: Fraunces, serif; font-size: 22px; font-weight: 600">mail-action</h1>
+</div>
+<div role="tablist" style="display: flex; gap: 4px; padding: 4px; border-radius: 10px; background: #E7E3D9">
+<a href="#mail" aria-current="page" style="padding: 7px 16px; border-radius: 7px; background: #FFFFFF; color: #1D1C1A; text-decoration: none; font-size: 14px; font-weight: 600">Chat</a>
+<a href="#rule" style="padding: 7px 16px; border-radius: 7px; color: #5E5B55; text-decoration: none; font-size: 14px; font-weight: 500">Rule</a>
+</div>
+<div style="flex-grow: 1"></div>
+<button type="button" aria-label="Sửa thông tin agent" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid #DDD8CC; background: #FFFFFF; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></button>
+</header>
+<div style="flex-grow: 1; padding: 20px 0; display: flex; justify-content: center; overflow: hidden">
+<div style="width: 760px; display: flex; flex-direction: column; gap: 16px">
+<div style="align-self: center; font-size: 12px; color: #5E5B55; padding: 4px 12px; border-radius: 12px; background: #ECE9E1">Thứ Năm, 01/10</div>
+<div style="align-self: flex-end; max-width: 560px; padding: 12px 16px; border-radius: 16px 16px 4px 16px; background: #2F5D50; color: #FFFFFF; font-size: 15px; line-height: 1.5">Gửi mail daily report tới chị phuongtn@gmail.com, cc hoahh@gmail.com. Nội dung: hôm nay làm xong API đăng nhập, mai làm trang chat.</div>
+<div style="display: flex; flex-direction: column; gap: 10px; max-width: 620px">
+<div style="font-size: 15px; line-height: 1.6">Mình đã soạn theo rule <strong>daily-report</strong>. Bạn xem lại nhé:</div>
+<div style="border-radius: 14px; background: #FFFFFF; border: 1px solid #DDD8CC; overflow: hidden">
+<div style="padding: 12px 16px; display: grid; grid-template-columns: 72px minmax(0, 1fr); row-gap: 6px; font-size: 14px; border-bottom: 1px solid #ECE9E1">
+<div style="color: #5E5B55">Tiêu đề</div><div style="font-weight: 600">[Daily Report] 01/10/2026</div>
+<div style="color: #5E5B55">To</div><div>phuongtn@gmail.com</div>
+<div style="color: #5E5B55">Cc</div><div>hoahh@gmail.com</div>
+</div>
+<div style="padding: 12px 16px; font-size: 14px; line-height: 1.6; white-space: pre-line">Dear chị,
+Đã làm: hoàn thành API đăng nhập.
+Todo: trang chat.
+Vướng mắc: Không.
+Best regards, Tuấn – Backend Developer – 0901 234 567</div>
+<div style="padding: 10px 16px; display: flex; gap: 8px; background: #F8F7F3; border-top: 1px solid #ECE9E1">
+<button type="button" style="height: 40px; padding: 0 18px; border-radius: 10px; border: none; background: #2F5D50; color: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 600">Gửi</button>
+<button type="button" style="height: 40px; padding: 0 18px; border-radius: 10px; border: 1px solid #CFC9BC; background: #FFFFFF; color: #1D1C1A; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 500">Sửa</button>
+</div>
+</div>
+</div>
+<div style="align-self: center; font-size: 12px; color: #5E5B55; padding: 4px 12px; border-radius: 12px; background: #ECE9E1">Thứ Sáu, 02/10 · 07:00 · chạy theo lịch</div>
+<div style="display: flex; gap: 12px; max-width: 620px; padding: 12px 14px; border-radius: 14px; background: #EDF4EF; border: 1px solid #C7DACD">
+<div style="color: #2F6B3A; padding-top: 1px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg></div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; line-height: 1.5">
+<div style="font-weight: 600">Đã gửi daily report</div>
+<div style="color: #3F4B43">[Daily Report] 02/10/2026 · To: minh@company.com · Cc: lan@company.com · Bcc: —</div>
+<a href="#" style="font-size: 13px; font-weight: 500">Xem nội dung</a>
+</div>
+</div>
+<div style="display: flex; gap: 12px; max-width: 620px; padding: 12px 14px; border-radius: 14px; background: #EDF4EF; border: 1px solid #C7DACD">
+<div style="color: #2F6B3A; padding-top: 1px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg></div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; line-height: 1.5">
+<div style="font-weight: 600">Đã gửi weekly report</div>
+<div style="color: #3F4B43">[Weekly Report] Tuần 40 (28/09 – 02/10) · To: minh@company.com · Cc: lan@company.com · Bcc: —</div>
+<a href="#" style="font-size: 13px; font-weight: 500">Xem nội dung</a>
+</div>
+</div>
+<div style="max-width: 620px; font-size: 14px; line-height: 1.6; color: #3F3D39; padding: 10px 14px; border-radius: 12px; border: 1px dashed #CFC9BC">Gợi ý: nên thêm vào rule daily report "mỗi việc trong Todo ghi kèm ngày dự kiến xong", vì 2 lần gần đây bạn đều sửa tay để thêm ngày. Bạn có thể thêm ở tab <a href="#rule">Rule</a>.</div>
+</div>
+</div>
+<div style="padding: 0 0 24px 0; display: flex; justify-content: center">
+<form style="width: 760px; box-sizing: border-box; display: flex; align-items: flex-end; gap: 10px; padding: 12px 12px 12px 18px; border-radius: 18px; background: #FFFFFF; border: 1px solid #CFC9BC">
+<label for="mail-msg" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Tin nhắn cho mail-action</label>
+<textarea id="mail-msg" rows="2" placeholder="Nhắn cho mail-action: người nhận, nội dung…" style="flex-grow: 1; border: none; resize: none; font-family: 'Be Vietnam Pro', sans-serif; font-size: 15px; line-height: 1.5; color: #1D1C1A; background: transparent; outline: none"></textarea>
+<button type="button" aria-label="Gửi" style="width: 44px; height: 44px; border-radius: 12px; border: none; background: #2F5D50; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+</form>
+</div>
+</main>
+</div>
+</div></section><section id="rule" class="screen" aria-label="3. mail-action · Rule"><div class="frame">
+
+<div style="width: 1280px; height: 1000px; display: flex; background: #F4F2EC; font-family: 'Be Vietnam Pro', sans-serif; color: #1D1C1A">
+<nav aria-label="Điều hướng chính" style="width: 260px; flex-shrink: 0; box-sizing: border-box; height: 100%; background: #ECE9E1; border-right: 1px solid #DDD8CC; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 4px 8px 18px 8px">
+<div style="width: 30px; height: 30px; border-radius: 8px; background: #2F5D50; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-size: 17px; font-weight: 600">T</div>
+<div style="font-family: Fraunces, serif; font-size: 20px; font-weight: 600">Trợ lý</div>
+</div>
+<a href="#main" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg>Chat chung</a>
+<div style="padding: 20px 12px 6px 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #5E5B55">AGENTS</div>
+<a href="#mail" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #DDD8CC; color: #1D1C1A; text-decoration: none; font-size: 15px; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><span style="flex-grow: 1">mail-action</span></a>
+<a href="#new" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #2F5D50; text-decoration: none; font-size: 15px; font-weight: 500; border: 1px dashed #9FB5AC; margin-top: 4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New agent</a>
+<div style="flex-grow: 1"></div>
+<a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"></path></svg><span style="flex-grow: 1">Lịch &amp; duyệt</span></a>
+<a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #1D1C1A; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Trí nhớ</a>
+<div style="display: flex; align-items: center; gap: 10px; padding: 14px 12px 4px 12px; border-top: 1px solid #DDD8CC; margin-top: 8px">
+<div style="width: 30px; height: 30px; border-radius: 15px; background: #C9C2B2; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600">T</div>
+<div style="font-size: 14px">Tuấn</div>
+</div>
+</nav>
+<main style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0">
+<header style="height: 68px; box-sizing: border-box; padding: 0 32px; display: flex; align-items: center; gap: 24px; border-bottom: 1px solid #DDD8CC">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 34px; height: 34px; border-radius: 9px; background: #E3ECE8; color: #2F5D50; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></div>
+<h1 style="margin: 0; font-family: Fraunces, serif; font-size: 22px; font-weight: 600">mail-action</h1>
+</div>
+<div role="tablist" style="display: flex; gap: 4px; padding: 4px; border-radius: 10px; background: #E7E3D9">
+<a href="#mail" style="padding: 7px 16px; border-radius: 7px; color: #5E5B55; text-decoration: none; font-size: 14px; font-weight: 500">Chat</a>
+<a href="#rule" aria-current="page" style="padding: 7px 16px; border-radius: 7px; background: #FFFFFF; color: #1D1C1A; text-decoration: none; font-size: 14px; font-weight: 600">Rule</a>
+</div>
+<div style="flex-grow: 1"></div>
+<button type="button" aria-label="Sửa thông tin agent" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid #DDD8CC; background: #FFFFFF; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></button>
+</header>
+<div style="flex-grow: 1; padding: 24px 0; display: flex; justify-content: center; overflow: hidden">
+<div style="width: 860px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">Rule của mail-action</h2>
+<div style="font-size: 14px; color: #5E5B55; line-height: 1.5">Rule là cách làm: format, cấu trúc, văn phong, chữ ký. Người nhận và nội dung bạn nói trong tin nhắn.</div>
+</div>
+<div style="display: flex; gap: 8px; flex-shrink: 0">
+<button type="button" style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #CFC9BC; background: #FFFFFF; color: #1D1C1A; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Thêm rule</button>
+<button type="button" style="height: 40px; padding: 0 18px; border-radius: 10px; border: none; background: #2F5D50; color: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 600">Lưu</button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 64px 96px; column-gap: 14px; padding: 0 16px; font-size: 12px; font-weight: 600; color: #5E5B55; letter-spacing: 0.04em">
+<div>PHẠM VI</div><div>TÊN · NỘI DUNG</div><div>BẬT</div><div></div>
+</div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 64px 96px; column-gap: 14px; align-items: start; padding: 14px 16px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DDD8CC">
+<label for="rule-s1" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Phạm vi</label>
+<select id="rule-s1" style="height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: #1D1C1A"><option>Chung</option><option>daily-report</option><option>weekly-report</option></select>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><label for="rule-t1" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Tên rule</label><input id="rule-t1" type="text" value="Chữ ký" style="height: 40px; box-sizing: border-box; padding: 0 12px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 600; color: #1D1C1A"><label for="rule-c1" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Nội dung rule</label>
+<textarea id="rule-c1" rows="1" style="padding: 9px 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; line-height: 1.5; color: #1D1C1A; resize: vertical">Best regards, Tuấn – Backend Developer – 0901 234 567</textarea></div>
+<label style="display: flex; align-items: center; height: 40px"><input type="checkbox" checked="checked" aria-label="Bật rule" style="width: 20px; height: 20px; accent-color: #2F5D50"></label>
+<div style="display: flex; gap: 4px; height: 40px; align-items: center">
+<button type="button" aria-label="Lịch sử" style="width: 44px; height: 40px; border-radius: 8px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button>
+<button type="button" aria-label="Xoá" style="width: 44px; height: 40px; border-radius: 8px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 64px 96px; column-gap: 14px; align-items: start; padding: 14px 16px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DDD8CC">
+<label for="rule-s2" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Phạm vi</label>
+<select id="rule-s2" style="height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: #1D1C1A"><option>Chung</option><option>daily-report</option><option>weekly-report</option></select>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><label for="rule-t2" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Tên rule</label><input id="rule-t2" type="text" value="Văn phong" style="height: 40px; box-sizing: border-box; padding: 0 12px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 600; color: #1D1C1A"><label for="rule-c2" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Nội dung rule</label>
+<textarea id="rule-c2" rows="1" style="padding: 9px 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; line-height: 1.5; color: #1D1C1A; resize: vertical">Ngắn gọn, lịch sự, xưng em. Không mở đầu dài dòng.</textarea></div>
+<label style="display: flex; align-items: center; height: 40px"><input type="checkbox" checked="checked" aria-label="Bật rule" style="width: 20px; height: 20px; accent-color: #2F5D50"></label>
+<div style="display: flex; gap: 4px; height: 40px; align-items: center">
+<button type="button" aria-label="Lịch sử" style="width: 44px; height: 40px; border-radius: 8px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button>
+<button type="button" aria-label="Xoá" style="width: 44px; height: 40px; border-radius: 8px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 64px 96px; column-gap: 14px; align-items: start; padding: 14px 16px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DDD8CC">
+<label for="rule-s3" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Phạm vi</label>
+<select id="rule-s3" style="height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: #1D1C1A"><option>daily-report</option><option>Chung</option><option>weekly-report</option></select>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><label for="rule-t3" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Tên rule</label><input id="rule-t3" type="text" value="Format daily" style="height: 40px; box-sizing: border-box; padding: 0 12px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 600; color: #1D1C1A"><label for="rule-c3" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Nội dung rule</label>
+<textarea id="rule-c3" rows="3" style="padding: 9px 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; line-height: 1.5; color: #1D1C1A; resize: vertical">Tiêu đề "[Daily Report] dd/mm/yyyy". Mở đầu "Dear anh/chị,". Nội dung 3 mục: Đã làm, Todo, Vướng mắc (không có thì ghi "Không").</textarea></div>
+<label style="display: flex; align-items: center; height: 40px"><input type="checkbox" checked="checked" aria-label="Bật rule" style="width: 20px; height: 20px; accent-color: #2F5D50"></label>
+<div style="display: flex; gap: 4px; height: 40px; align-items: center">
+<button type="button" aria-label="Lịch sử" style="width: 44px; height: 40px; border-radius: 8px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button>
+<button type="button" aria-label="Xoá" style="width: 44px; height: 40px; border-radius: 8px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 64px 96px; column-gap: 14px; align-items: start; padding: 14px 16px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DDD8CC">
+<label for="rule-s4" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Phạm vi</label>
+<select id="rule-s4" style="height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: #1D1C1A"><option>weekly-report</option><option>Chung</option><option>daily-report</option></select>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><label for="rule-t4" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Tên rule</label><input id="rule-t4" type="text" value="Format weekly" style="height: 40px; box-sizing: border-box; padding: 0 12px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 600; color: #1D1C1A"><label for="rule-c4" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Nội dung rule</label>
+<textarea id="rule-c4" rows="3" style="padding: 9px 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; line-height: 1.5; color: #1D1C1A; resize: vertical">Tiêu đề "[Weekly Report] Tuần N (dd/mm – dd/mm)". Nội dung 3 mục: Kết quả tuần này, Kế hoạch tuần sau, Vấn đề cần hỗ trợ.</textarea></div>
+<label style="display: flex; align-items: center; height: 40px"><input type="checkbox" checked="checked" aria-label="Bật rule" style="width: 20px; height: 20px; accent-color: #2F5D50"></label>
+<div style="display: flex; gap: 4px; height: 40px; align-items: center">
+<button type="button" aria-label="Lịch sử" style="width: 44px; height: 40px; border-radius: 8px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button>
+<button type="button" aria-label="Xoá" style="width: 44px; height: 40px; border-radius: 8px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 64px 96px; column-gap: 14px; align-items: start; padding: 14px 16px; border-radius: 12px; background: #FAF9F5; border: 1px dashed #9FB5AC">
+<label for="rule-s5" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Phạm vi</label>
+<select id="rule-s5" style="height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: #1D1C1A"><option>Chọn phạm vi</option><option>Chung</option><option>daily-report</option><option>weekly-report</option></select>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><label for="rule-t5" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Tên rule</label><input id="rule-t5" type="text" placeholder="Tên ngắn, ví dụ: Link Jira" style="height: 40px; box-sizing: border-box; padding: 0 12px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; font-weight: 600; color: #1D1C1A"><label for="rule-c5" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Nội dung rule mới</label>
+<textarea id="rule-c5" rows="2" placeholder="Viết rule mới bằng lời, ví dụ: luôn đính kèm link Jira của task" style="padding: 9px 12px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; line-height: 1.5; color: #1D1C1A; resize: vertical"></textarea></div>
+<label style="display: flex; align-items: center; height: 40px"><input type="checkbox" checked="checked" aria-label="Bật rule" style="width: 20px; height: 20px; accent-color: #2F5D50"></label>
+<div style="display: flex; align-items: center; height: 40px; font-size: 12px; color: #5E5B55">Rule mới</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div></section><section id="new" class="screen" aria-label="4. Tạo agent mới"><div class="frame">
+
+<div style="width: 1280px; height: 900px; position: relative; display: flex; background: #F4F2EC; font-family: 'Be Vietnam Pro', sans-serif; color: #1D1C1A; overflow: hidden">
+<nav aria-label="Điều hướng chính" style="width: 260px; flex-shrink: 0; box-sizing: border-box; height: 100%; background: #ECE9E1; border-right: 1px solid #DDD8CC; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 4px 8px 18px 8px">
+<div style="width: 30px; height: 30px; border-radius: 8px; background: #2F5D50; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-size: 17px; font-weight: 600">T</div>
+<div style="font-family: Fraunces, serif; font-size: 20px; font-weight: 600">Trợ lý</div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; font-size: 15px">Chat chung</div>
+<div style="padding: 20px 12px 6px 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #5E5B55">AGENTS</div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; font-size: 15px">mail-action</div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: #2F5D50; font-size: 15px; font-weight: 600; border: 1px solid #2F5D50; background: #FFFFFF; margin-top: 4px">New agent</div>
+</nav>
+<div style="flex-grow: 1"></div>
+<div style="position: absolute; left: 0; top: 0; width: 1280px; height: 900px; background: rgba(29, 28, 26, 0.45); display: flex; align-items: center; justify-content: center">
+<div role="dialog" aria-modal="true" aria-labelledby="new-dlg-title" style="width: 640px; box-sizing: border-box; border-radius: 18px; background: #FFFFFF; display: flex; flex-direction: column">
+<div style="padding: 20px 24px 14px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 1px solid #ECE9E1">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 id="new-dlg-title" style="margin: 0; font-family: Fraunces, serif; font-size: 22px; font-weight: 600">Tạo agent mới</h2>
+<div style="font-size: 13px; color: #5E5B55">Tạo xong sẽ mở tab Rule để thêm rule đầu tiên.</div>
+</div>
+<a href="#main" aria-label="Đóng" style="width: 44px; height: 44px; border-radius: 10px; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+</div>
+<form style="padding: 16px 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 150px; column-gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="new-f-name" style="font-size: 13px; font-weight: 600">Tên</label>
+<input id="new-f-name" type="text" value="Chi tiêu" style="height: 40px; box-sizing: border-box; padding: 0 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: #1D1C1A">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="new-f-model" style="font-size: 13px; font-weight: 600">Model</label>
+<select id="new-f-model" style="height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid #CFC9BC; background: #FFFFFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: #1D1C1A"><option>Haiku (rẻ)</option><option>Sonnet</option></select>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="new-f-desc" style="font-size: 13px; font-weight: 600">Mô tả ngắn <span style="font-weight: 400; color: #5E5B55">· chat chung dựa vào đây để gợi ý agent</span></label>
+<input id="new-f-desc" type="text" value="Ghi lại khoản chi, theo dõi ngân sách, báo cáo cuối tháng" style="height: 40px; box-sizing: border-box; padding: 0 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: #1D1C1A">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="new-f-inst" style="font-size: 13px; font-weight: 600">Hướng dẫn</label>
+<textarea id="new-f-inst" rows="2" style="padding: 9px 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; line-height: 1.5; color: #1D1C1A; resize: vertical">Bạn là trợ lý quản lý chi tiêu cá nhân. Ghi lại từng khoản chi theo danh mục và báo cáo khi được hỏi.</textarea>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="new-f-can" style="font-size: 13px; font-weight: 600">Làm được <span style="font-weight: 400; color: #5E5B55">· mỗi dòng một việc</span></label>
+<textarea id="new-f-can" rows="3" style="padding: 9px 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; line-height: 1.5; color: #1D1C1A; resize: vertical; white-space: pre-line">Ghi khoản chi
+Tổng hợp theo tháng
+Cảnh báo vượt ngân sách</textarea>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="new-f-cannot" style="font-size: 13px; font-weight: 600">Không làm được</label>
+<textarea id="new-f-cannot" rows="3" style="padding: 9px 12px; border-radius: 8px; border: 1px solid #CFC9BC; font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; line-height: 1.5; color: #1D1C1A; resize: vertical; white-space: pre-line">Chuyển tiền
+Đọc tài khoản ngân hàng</textarea>
+</div>
+</div>
+<fieldset style="margin: 0; padding: 0; border: none; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-size: 13px; font-weight: 600; padding: 0 0 8px 0">Công cụ <span style="font-weight: 400; color: #5E5B55">· chọn trong các công cụ đã có</span></legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<label style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 20px; border: 1px solid #2F5D50; background: #E3ECE8; font-size: 14px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; accent-color: #2F5D50">Lưu dữ liệu</label>
+<label style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 20px; border: 1px solid #2F5D50; background: #E3ECE8; font-size: 14px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; accent-color: #2F5D50">Lịch chạy</label>
+<label style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 20px; border: 1px solid #CFC9BC; font-size: 14px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #2F5D50">Gửi mail</label>
+<label style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 20px; border: 1px solid #CFC9BC; font-size: 14px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #2F5D50">Danh bạ</label>
+<label style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 20px; border: 1px solid #CFC9BC; font-size: 14px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #2F5D50">Tìm kiếm web</label>
+</div>
+</fieldset>
+<fieldset style="margin: 0; padding: 0; border: none; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-size: 13px; font-weight: 600; padding: 0 0 8px 0">Skill <span style="font-weight: 400; color: #5E5B55">· chọn trong các skill đã có, không bắt buộc</span></legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<label style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 20px; border: 1px solid #CFC9BC; font-size: 14px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #2F5D50">daily-report</label>
+<label style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 20px; border: 1px solid #CFC9BC; font-size: 14px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #2F5D50">weekly-report</label>
+</div>
+</fieldset>
+</form>
+<div style="padding: 14px 24px 20px 24px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #ECE9E1">
+<a href="#main" style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #CFC9BC; color: #1D1C1A; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center">Huỷ</a>
+<a href="#rule" style="height: 44px; padding: 0 20px; border-radius: 10px; background: #2F5D50; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 600; display: flex; align-items: center">Tạo agent</a>
+</div>
+</div>
+</div>
+</div>
+</div></section><section id="mobile" class="screen" aria-label="5. Điện thoại"><div class="frame">
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F2EC; font-family: 'Be Vietnam Pro', sans-serif; color: #1D1C1A">
+<header style="padding: 14px 12px 10px 8px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #DDD8CC; background: #F4F2EC">
+<div style="display: flex; align-items: center; gap: 6px">
+<button type="button" aria-label="Mở menu" style="width: 44px; height: 44px; border: none; background: transparent; color: #1D1C1A; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+<h1 style="margin: 0; flex-grow: 1; font-family: Fraunces, serif; font-size: 20px; font-weight: 600">mail-action</h1>
+<button type="button" aria-label="Sửa thông tin agent" style="width: 44px; height: 44px; border: none; background: transparent; color: #5E5B55; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></button>
+</div>
+<div role="tablist" style="margin: 0 4px 0 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 10px; background: #E7E3D9">
+<a href="#" aria-current="page" style="height: 36px; border-radius: 7px; background: #FFFFFF; color: #1D1C1A; text-decoration: none; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center">Chat</a>
+<a href="#" style="height: 36px; border-radius: 7px; color: #5E5B55; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center">Rule</a>
+</div>
+</header>
+<div style="flex-grow: 1; padding: 16px; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+<div style="align-self: center; font-size: 12px; color: #5E5B55; padding: 4px 12px; border-radius: 12px; background: #ECE9E1">Thứ Sáu, 02/10</div>
+<div style="align-self: flex-end; max-width: 300px; padding: 11px 14px; border-radius: 16px 16px 4px 16px; background: #2F5D50; color: #FFFFFF; font-size: 15px; line-height: 1.5">Hôm qua làm trang chat, todo: kết nối Gmail. Weekly: tuần này xong đăng nhập và chat, tuần sau làm agent mail.</div>
+<div style="max-width: 320px; font-size: 15px; line-height: 1.55">Đã ghi nhận cho daily và weekly report hôm nay. 7h mình sẽ gửi, muốn sửa thì nhắn trước 7h.</div>
+<div style="align-self: center; font-size: 12px; color: #5E5B55">07:00 · chạy theo lịch</div>
+<div style="display: flex; gap: 10px; padding: 12px; border-radius: 14px; background: #EDF4EF; border: 1px solid #C7DACD">
+<div style="color: #2F6B3A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg></div>
+<div style="display: flex; flex-direction: column; gap: 3px; font-size: 14px; line-height: 1.45">
+<div style="font-weight: 600">Đã gửi daily report</div>
+<div style="color: #3F4B43">[Daily Report] 02/10/2026 · To: minh@company.com · Cc: lan@company.com</div>
+</div>
+</div>
+<div style="display: flex; gap: 10px; padding: 12px; border-radius: 14px; background: #EDF4EF; border: 1px solid #C7DACD">
+<div style="color: #2F6B3A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg></div>
+<div style="display: flex; flex-direction: column; gap: 3px; font-size: 14px; line-height: 1.45">
+<div style="font-weight: 600">Đã gửi weekly report</div>
+<div style="color: #3F4B43">[Weekly Report] Tuần 40 · To: minh@company.com · Cc: lan@company.com</div>
+</div>
+</div>
+</div>
+<form style="margin: 0 12px 16px 12px; display: flex; align-items: flex-end; gap: 8px; padding: 8px 8px 8px 14px; border-radius: 18px; background: #FFFFFF; border: 1px solid #CFC9BC">
+<label for="mobile-m-msg" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Tin nhắn</label>
+<textarea id="mobile-m-msg" rows="1" placeholder="Nhắn cho mail-action…" style="flex-grow: 1; border: none; resize: none; font-family: 'Be Vietnam Pro', sans-serif; font-size: 15px; line-height: 1.5; padding: 10px 0; color: #1D1C1A; background: transparent; outline: none"></textarea>
+<button type="button" aria-label="Gửi" style="width: 44px; height: 44px; border-radius: 12px; border: none; background: #2F5D50; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+</form>
+</div>
+</div></section>
+<script>
+function show(){var h=(location.hash||'#main').slice(1);if(!document.getElementById(h))h='main';
+document.querySelectorAll('.screen').forEach(function(s){s.classList.toggle('on',s.id===h)});
+document.querySelectorAll('.topbar a').forEach(function(a){a.classList.toggle('on',a.dataset.s===h)});window.scrollTo(0,0);}
+window.addEventListener('hashchange',show);show();
+document.querySelectorAll('a[href="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault()})});
+</script>
+</body>
+</html>

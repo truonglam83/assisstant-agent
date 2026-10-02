@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Design token lấy từ docs/ui-mockup.html — xem docs/01-frontend.md §4 (chưa chốt dark mode). */
+:root {
+  --app-bg: #f4f2ec;
+  --sidebar-bg: #ece9e1;
+  --tab-bg: #e7e3d9;
+  --border: #ddd8cc;
+  --border-input: #cfc9bc;
+  --text: #1d1c1a;
+  --text-muted: #5e5b55;
+  --accent: #2f5d50;
+  --accent-hover: #1f4238;
+  --accent-soft: #e3ece8;
+  --badge: #b5561f;
+  --success-bg: #edf4ef;
+  --success-border: #c7dacd;
+  --success-text: #2f6b3a;
+  --success-text-strong: #3f4b43;
+  /* Không có trong mockup (mockup chỉ có thẻ success) — thêm để hiện lỗi đăng nhập, hài hoà với --badge. */
+  --danger-bg: #fbeeea;
+  --danger-border: #e7c4b8;
+  --danger-text: #8c3b2a;
+  --danger: #a5432f;
+  --danger-hover: #8a3626;
+}
+
+@theme inline {
+  --color-app-bg: var(--app-bg);
+  --color-sidebar: var(--sidebar-bg);
+  --color-tab-bg: var(--tab-bg);
+  --color-border: var(--border);
+  --color-border-input: var(--border-input);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-badge: var(--badge);
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
+  --color-success-text: var(--success-text);
+  --color-success-text-strong: var(--success-text-strong);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-border: var(--danger-border);
+  --color-danger-text: var(--danger-text);
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --font-sans: var(--font-be-vietnam-pro);
+  --font-serif: var(--font-fraunces);
+}
+
+body {
+  background: var(--app-bg);
+  color: var(--text);
+}
