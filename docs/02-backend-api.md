@@ -1,12 +1,12 @@
 # 02 — Backend API
 
-> Trạng thái: **Khung**
+> Trạng thái: **Đang làm**
 >
 > Riêng phần **contract API (mục 3.2, 3.3)** phải chốt **trước khi làm FE**.
 
 ## 1. Mục tiêu
 
-Backend Hono phục vụ mọi client qua REST + SSE: xác thực, CRUD dữ liệu, stream chat, duyệt hành động, kết nối dịch vụ ngoài.
+Backend NestJS phục vụ mọi client qua REST + SSE: xác thực, CRUD dữ liệu, stream chat, duyệt hành động, kết nối dịch vụ ngoài.
 
 ## 2. Tham chiếu ý tưởng
 
@@ -15,13 +15,15 @@ Backend Hono phục vụ mọi client qua REST + SSE: xác thực, CRUD dữ li�
 ## 3. Các phần
 
 ### 3.1. Nền tảng
-- Khởi tạo Hono, cấu trúc route
+
+- Khởi tạo NestJS, cấu trúc Module / Controller / Service
 - Xác thực mọi request (token từ FE), chỉ cho phép một email
 - CORS: chỉ nhận request từ domain frontend
 - Validate input, định dạng lỗi thống nhất
 - Log
 
 ### 3.2. Contract REST (theo nhóm)
+
 - Agents: danh sách, chi tiết, tạo, sửa, xoá
 - Conversations / messages: lấy luồng chat, phân trang tin cũ, đánh dấu đã đọc
 - Rules: danh sách, thêm, sửa, bật/tắt, xoá, lịch sử, khôi phục
@@ -35,11 +37,13 @@ Backend Hono phục vụ mọi client qua REST + SSE: xác thực, CRUD dữ li�
 - Danh mục tool và skill có sẵn (cho popup tạo agent)
 
 ### 3.3. Contract SSE (stream chat)
+
 - Gửi tin nhắn và nhận stream
 - Các loại sự kiện: chữ, tool bắt đầu/kết thúc, yêu cầu duyệt, gợi ý agent, đề xuất sửa rule, đã ghi nhớ, kết thúc lượt (token, chi phí), lỗi
 - Tin `event` do lịch đăng vào lúc người dùng đang mở app
 
 ### 3.4. Kết nối dịch vụ ngoài
+
 - Gmail OAuth: đổi code lấy token, lưu mã hoá, làm mới token
 - Web Push: gửi thông báo
 
@@ -58,8 +62,12 @@ Backend Hono phục vụ mọi client qua REST + SSE: xác thực, CRUD dữ li�
 
 ## 5. Đã chốt
 
-- **Lấy 1 agent theo slug: BE tự tra** — route riêng `GET /agents/:slug`, BE query thẳng `WHERE slug = :slug` và trả về 1 agent (kèm `id` thật). Không dùng cách "FE gọi `GET /agents` lấy hết rồi tự lọc theo slug". *(2026-09-27)*
+- **Framework Backend**: Chọn **NestJS** làm framework chính. Cấu trúc theo kiến trúc Module/Controller/Service, Dependency Injection, class-validator DTO, và native `@Sse()` cho streaming chat SSE. _(2026-10-05)_
+- **Lấy 1 agent theo slug: BE tự tra** — route riêng `GET /agents/:slug`, BE query thẳng `WHERE slug = :slug` và trả về 1 agent (kèm `id` thật). Không dùng cách "FE gọi `GET /agents` lấy hết rồi tự lọc theo slug". _(2026-09-27)_
 
 ## 6. Việc cần làm
 
-_(viết sau khi chốt)_
+- [ ] Khởi tạo dự án NestJS base trong thư mục `api/` (Express platform, TypeScript)
+- [ ] Thiết lập Global ValidationPipe (`class-validator`, `class-transformer`), CORS, Health Controller (`/api/health`)
+- [ ] Xây dựng ChatController với SSE Stream endpoint (`/api/chat/stream`)
+- [ ] Viết tài liệu hướng dẫn chi tiết về cấu trúc NestJS trong `api/README.md`

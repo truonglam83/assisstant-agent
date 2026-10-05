@@ -1,12 +1,17 @@
 # Dependencies
 node_modules/
 web/node_modules/
+api/node_modules/
 
 # Next.js build
 .next/
 web/.next/
 out/
 web/out/
+
+# NestJS build
+dist/
+api/dist/
 
 # Environment files
 .env*.local
@@ -15,6 +20,9 @@ web/out/
 web/.env*.local
 web/.env
 !web/.env.example
+api/.env*.local
+api/.env
+!api/.env.example
 
 # OS files
 .DS_Store
