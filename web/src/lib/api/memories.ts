@@ -38,7 +38,7 @@ export const memoriesApi = {
       endpoint,
       { method: "PATCH", body: JSON.stringify(patch) },
       async () => {
-        console.log("[mock memoriesApi.update]", id, patch);
+        console.info("[mock memoriesApi.update]", id, patch);
         await delay(250);
       },
     );
@@ -47,7 +47,7 @@ export const memoriesApi = {
   async remove(id: string): Promise<void> {
     const endpoint = ENDPOINTS.DELETE_MEMORY ? `${ENDPOINTS.DELETE_MEMORY}/${id}` : "";
     return callApi(endpoint, { method: "DELETE" }, async () => {
-      console.log("[mock memoriesApi.remove]", id);
+      console.info("[mock memoriesApi.remove]", id);
       await delay(250);
     });
   },

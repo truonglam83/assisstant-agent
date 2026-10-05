@@ -5,10 +5,21 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
+
+const emptySubscribe = () => () => {};
+function useIsClient(): boolean {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
 
 export type ToastType = "success" | "warning" | "error" | "info";
 
@@ -88,13 +99,11 @@ const colorMap: Record<ToastType, string> = {
 
 let toastCounter = 0;
 
+
+
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const isClient = useIsClient();
 
   const removeToast = useCallback((id: number) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -121,8 +130,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     }, 4000);
   }, [removeToast]);
 
-  const toastHandler = useCallback(
-    Object.assign(
+  const toastHandler = useMemo(() => {
+    return Object.assign(
       (input: ToastInput, typeOverride?: ToastType) => trigger(input, typeOverride),
       {
         success: (msg: string) => trigger(msg, "success"),
@@ -130,9 +139,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         error: (msg: string) => trigger(msg, "error"),
         info: (msg: string) => trigger(msg, "info"),
       }
-    ) as ToastFn,
-    [trigger]
-  );
+    ) as ToastFn;
+  }, [trigger]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -141,7 +149,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     }
   }, [toastHandler]);
 
-  const toastPortal = mounted && typeof document !== "undefined"
+  const toastPortal = isClient && typeof document !== "undefined"
     ? createPortal(
         <div
           id="toast-root"

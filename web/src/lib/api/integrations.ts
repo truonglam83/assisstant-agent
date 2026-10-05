@@ -13,12 +13,12 @@ export const integrationsApi = {
       window.location.href = ENDPOINTS.CONNECT_GMAIL;
       return;
     }
-    console.log("[mock integrationsApi.connect] chưa có endpoint — chưa redirect OAuth thật.");
+    console.info("[mock integrationsApi.connect] chưa có endpoint — chưa redirect OAuth thật.");
   },
 
   async disconnect(): Promise<void> {
     return callApi(ENDPOINTS.DISCONNECT_GMAIL, { method: "DELETE" }, async () => {
-      console.log("[mock integrationsApi.disconnect]");
+      console.info("[mock integrationsApi.disconnect]");
       await delay(300);
     });
   },

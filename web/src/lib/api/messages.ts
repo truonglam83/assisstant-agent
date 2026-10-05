@@ -31,7 +31,7 @@ export const messagesApi = {
       endpoint,
       { method: "POST", body: JSON.stringify({ content }) },
       async () => {
-        console.log("[mock messagesApi.send]", conversationKey, content);
+        console.info("[mock messagesApi.send]", conversationKey, content);
         await delay(150);
         return { id: `local_${Date.now()}`, role: "user", content } as MockMessage;
       },

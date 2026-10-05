@@ -25,7 +25,7 @@ export const approvalsApi = {
       endpoint,
       { method: "POST", body: JSON.stringify({ decision }) },
       async () => {
-        console.log("[mock approvalsApi.decide]", id, decision);
+        console.info("[mock approvalsApi.decide]", id, decision);
         await delay(300);
       },
     );

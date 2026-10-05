@@ -38,7 +38,7 @@ export const schedulesApi = {
       endpoint,
       { method: "PATCH", body: JSON.stringify({ enabled }) },
       async () => {
-        console.log("[mock schedulesApi.toggle]", id, enabled);
+        console.info("[mock schedulesApi.toggle]", id, enabled);
         await delay(300);
       },
     );
