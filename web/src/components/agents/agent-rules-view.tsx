@@ -21,7 +21,7 @@ export async function AgentRulesView({ agentId }: { agentId: string }) {
               dung bạn nói trong tin nhắn.
             </p>
           </div>
-          <RulesActions />
+          <RulesActions agentId={agentId} />
         </div>
 
         <div className="hidden grid-cols-[170px_minmax(0,1fr)_64px_96px] gap-3.5 px-4 text-xs font-semibold tracking-wide text-text-muted md:grid">
