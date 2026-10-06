@@ -5,14 +5,18 @@
 
 export const ENDPOINTS = {
   // Agents (docs/02-backend-api.md §3.2 "Agents")
-  LIST_AGENTS: "", // ví dụ: "/agents" (GET — cho Sidebar)
-  GET_AGENT_BY_SLUG: "", // ví dụ: "/agents/:slug" (GET — BE tự tra theo slug, xem 02-backend-api.md "Đã chốt")
-  CREATE_AGENT: "", // ví dụ: "/agents"     (POST)
-  UPDATE_AGENT: "", // ví dụ: "/agents"     (PATCH /agents/:slug — hàm tự nối thêm /:slug)
-  DELETE_AGENT: "", // ví dụ: "/agents"     (DELETE /agents/:slug — hàm tự nối thêm /:slug)
+  LIST_AGENTS: "/agents", // GET — cho Sidebar
+  GET_AGENT_BY_SLUG: "/agents/:slug", // GET — BE tự tra theo slug
+  CREATE_AGENT: "/agents", // POST
+  UPDATE_AGENT: "/agents", // PATCH /agents/:slug
+  DELETE_AGENT: "/agents", // DELETE /agents/:slug
 
   // Rules (§3.2 "Rules")
-  LIST_RULES: "", // ví dụ: "/agents/:agentId/rules" (GET — hàm tự thay :agentId)
+  LIST_RULES: "/agents/:agentId/rules", // GET
+  CREATE_RULE: "/agents/:agentId/rules", // POST
+  UPDATE_RULE: "/rules", // PATCH /rules/:id
+  DELETE_RULE: "/rules", // DELETE /rules/:id
+  GET_RULE_VERSIONS: "/rules/:id/versions", // GET
 
   // Approvals (§3.2 "Approvals")
   LIST_PENDING_APPROVALS: "", // ví dụ: "/agents/:agentId/approvals" (GET, ?status=pending)

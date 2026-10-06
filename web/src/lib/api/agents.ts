@@ -84,20 +84,32 @@ export const agentsApi = {
   },
 
   async create(input: AgentFormInput): Promise<{ slug: string }> {
+    const slug = slugify(input.name) || `agent-${Date.now()}`;
+    const payload = {
+      ...input,
+      slug,
+      canDo:
+        typeof input.canDo === "string"
+          ? input.canDo.split("\n").filter(Boolean)
+          : input.canDo,
+      cannotDo:
+        typeof input.cannotDo === "string"
+          ? input.cannotDo.split("\n").filter(Boolean)
+          : input.cannotDo,
+    };
     return callApi(
       ENDPOINTS.CREATE_AGENT,
-      { method: "POST", body: JSON.stringify(input) },
+      { method: "POST", body: JSON.stringify(payload) },
       async () => {
         await delay(250);
-        const slug = slugify(input.name) || `agent-${Date.now()}`;
         const newAgent: MockAgent = {
           id: `ag_${Date.now()}`,
           slug,
           name: input.name,
           description: input.description,
           instructions: input.instructions,
-          canDo: input.canDo.split("\n").filter(Boolean),
-          cannotDo: input.cannotDo.split("\n").filter(Boolean),
+          canDo: typeof input.canDo === "string" ? input.canDo.split("\n").filter(Boolean) : input.canDo,
+          cannotDo: typeof input.cannotDo === "string" ? input.cannotDo.split("\n").filter(Boolean) : input.cannotDo,
           tools: input.tools,
           skills: input.skills,
           model: input.model,
@@ -109,18 +121,29 @@ export const agentsApi = {
   },
 
   async update(slug: string, input: AgentFormInput): Promise<void> {
+    const payload = {
+      ...input,
+      canDo:
+        typeof input.canDo === "string"
+          ? input.canDo.split("\n").filter(Boolean)
+          : input.canDo,
+      cannotDo:
+        typeof input.cannotDo === "string"
+          ? input.cannotDo.split("\n").filter(Boolean)
+          : input.cannotDo,
+    };
     const endpoint = ENDPOINTS.UPDATE_AGENT ? `${ENDPOINTS.UPDATE_AGENT}/${slug}` : "";
     return callApi(
       endpoint,
-      { method: "PATCH", body: JSON.stringify(input) },
+      { method: "PATCH", body: JSON.stringify(payload) },
       async () => {
         await delay(250);
         updateMockAgent(slug, {
           name: input.name,
           description: input.description,
           instructions: input.instructions,
-          canDo: input.canDo.split("\n").filter(Boolean),
-          cannotDo: input.cannotDo.split("\n").filter(Boolean),
+          canDo: typeof input.canDo === "string" ? input.canDo.split("\n").filter(Boolean) : input.canDo,
+          cannotDo: typeof input.cannotDo === "string" ? input.cannotDo.split("\n").filter(Boolean) : input.cannotDo,
           tools: input.tools,
           skills: input.skills,
           model: input.model,

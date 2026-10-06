@@ -28,10 +28,22 @@ export class UpdateAgentDto {
 
   @IsOptional()
   @IsArray()
+  @IsString({ each: true })
+  canDo?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  cannotDo?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
   tools?: string[];
 
   @IsOptional()
   @IsArray()
+  @IsString({ each: true })
   skills?: string[];
 
   @IsOptional()

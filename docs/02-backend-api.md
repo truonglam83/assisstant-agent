@@ -77,7 +77,9 @@ Backend NestJS phục vụ mọi client qua REST + SSE: xác thực, CRUD dữ l
 
 ## 6. Việc cần làm
 
-- [ ] Khởi tạo dự án NestJS base trong thư mục `api/` (Express platform, TypeScript)
-- [ ] Thiết lập Global ValidationPipe (`class-validator`, `class-transformer`), CORS, Health Controller (`/api/health`)
+- [x] Khởi tạo dự án NestJS base trong thư mục `api/` (Express platform, TypeScript)
+- [x] Thiết lập Global ValidationPipe (`class-validator`, `class-transformer`), CORS, Health Controller (`/api/health`)
+- [x] Thiết lập AuthGuard xác thực JWT Bearer token và kiểm tra `ALLOWED_EMAIL`
+- [x] Xây dựng Module Agents & Rules hoàn chỉnh (CRUD, snapshot version, ràng buộc tối thiểu 1 rule bật)
 - [ ] Xây dựng ChatController với SSE Stream endpoint (`/api/chat/stream`)
 - [ ] Viết tài liệu hướng dẫn chi tiết về cấu trúc NestJS trong `api/README.md`
