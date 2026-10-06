@@ -44,10 +44,10 @@ export class AgentRule {
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt?: Date;
 
-  @ManyToOne(() => Agent, (agent) => agent.rules, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Agent, (agent: Agent) => agent.rules, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'agent_id' })
   agent!: Agent;
 
-  @OneToMany(() => AgentRuleVersion, (ver) => ver.rule, { cascade: true })
+  @OneToMany(() => AgentRuleVersion, (ver: AgentRuleVersion) => ver.rule, { cascade: true })
   versions!: AgentRuleVersion[];
 }

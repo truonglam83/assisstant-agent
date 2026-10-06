@@ -4,6 +4,7 @@ import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
 import { ChatModule } from './chat/chat.module';
 import { AgentsModule } from './agents/agents.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AgentsModule } from './agents/agents.module';
     HealthModule,
     ChatModule,
     AgentsModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

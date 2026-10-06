@@ -64,6 +64,16 @@ Backend NestJS phục vụ mọi client qua REST + SSE: xác thực, CRUD dữ l
 
 - **Framework Backend**: Chọn **NestJS** làm framework chính. Cấu trúc theo kiến trúc Module/Controller/Service, Dependency Injection, class-validator DTO, và native `@Sse()` cho streaming chat SSE. _(2026-10-05)_
 - **Lấy 1 agent theo slug: BE tự tra** — route riêng `GET /agents/:slug`, BE query thẳng `WHERE slug = :slug` và trả về 1 agent (kèm `id` thật). Không dùng cách "FE gọi `GET /agents` lấy hết rồi tự lọc theo slug". _(2026-09-27)_
+- **Contract Rules API & DTOs**:
+  - `GET /agents/:agentId/rules`: Lấy danh sách rules của 1 agent (hỗ trợ cả UUID hoặc `slug`).
+  - `POST /agents/:agentId/rules`: Thêm rule mới cho agent (khởi tạo `version = 1`, tạo snapshot đầu tiên trong `agent_rule_versions`).
+  - `PATCH /rules/:id`: Cập nhật rule (nếu thay đổi `content`, tự động tăng `version` và lưu snapshot vào `agent_rule_versions`).
+  - `DELETE /rules/:id`: Xóa mềm rule (`deleted_at`).
+  - `GET /rules/:id/versions`: Xem lịch sử các phiên bản của rule.
+  - **Ràng buộc nghiệp vụ**: Mỗi agent phải có ít nhất 1 rule đang bật (`enabled = true`). Backend từ chối xóa hoặc tắt rule đang hoạt động cuối cùng của agent.
+  - **DTO Agent**: Nhận `canDo` và `cannotDo` từ Frontend, map vào cột `capabilities: { can, cannot }`. Cho phép sửa/xoá agent theo cả `id` (UUID) hoặc `slug`. _(2026-10-05)_
+- **Auth Guard BE & Token FE-BE**: FE (Auth.js v5) nhúng `apiToken` (JWT HS256 được ký bằng `AUTH_SECRET`) vào session. Cả Server Component và Client Component gửi token qua header `Authorization: Bearer <apiToken>`. BE dùng `jose` (`jwtVerify`) để xác thực token bằng `AUTH_SECRET`, đối chiếu `payload.email === ALLOWED_EMAIL`, và gán `req.user = payload`. Guard áp dụng global cho toàn bộ endpoint (trừ `GET /api/health`). Cung cấp endpoint `GET /api/auth/me` để kiểm tra và xác nhận trạng thái đăng nhập giữa FE và BE. _(2026-10-05)_
+
 
 ## 6. Việc cần làm
 

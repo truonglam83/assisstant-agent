@@ -67,6 +67,6 @@ export class Agent {
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt?: Date;
 
-  @OneToMany(() => AgentRule, (rule) => rule.agent, { cascade: true })
+  @OneToMany(() => AgentRule, (rule: AgentRule) => rule.agent, { cascade: true })
   rules!: AgentRule[];
 }

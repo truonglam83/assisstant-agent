@@ -28,7 +28,7 @@ export class AgentRuleVersion {
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 
-  @ManyToOne(() => AgentRule, (rule) => rule.versions, { onDelete: 'CASCADE' })
+  @ManyToOne(() => AgentRule, (rule: AgentRule) => rule.versions, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'rule_id' })
   rule!: AgentRule;
 }
