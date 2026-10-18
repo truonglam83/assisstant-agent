@@ -11,8 +11,10 @@ const navInactive = "border border-transparent font-normal text-text";
 export function SidebarAgentsList({ initialAgents }: { initialAgents: MockAgent[] }) {
   const { agents, isLoaded } = useAgentModal();
   // Dùng initialAgents chỉ khi chưa mount/hydrate xong để tránh layout shift.
-  // Khi isLoaded = true, danh sách agents (dù rỗng) là nguồn chân lý chính xác nhất.
-  const list = isLoaded ? agents : initialAgents;
+  const rawList = isLoaded ? agents : initialAgents;
+  const list = rawList.filter(
+    (agent) => !agent.isDefault && agent.slug !== "general",
+  );
 
   return (
     <>

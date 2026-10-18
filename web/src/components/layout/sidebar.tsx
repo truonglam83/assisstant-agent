@@ -36,7 +36,10 @@ export async function Sidebar() {
   const session = await auth();
   const name = session?.user?.name ?? session?.user?.email ?? "Bạn";
   const initial = name.charAt(0).toUpperCase();
-  const agents = await agentsApi.list();
+  const allAgents = await agentsApi.list();
+  const agents = allAgents.filter(
+    (agent) => !agent.isDefault && agent.slug !== "general",
+  );
 
   return (
     <nav

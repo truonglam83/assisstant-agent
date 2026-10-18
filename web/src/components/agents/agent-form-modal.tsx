@@ -277,7 +277,7 @@ export function AgentFormModal({
         </div>
 
         <div className="flex shrink-0 items-center justify-between gap-2 border-t border-border px-6 py-4">
-          {mode === "edit" && onRequestDelete ? (
+          {mode === "edit" && onRequestDelete && !agent?.isDefault && agent?.slug !== "general" ? (
             <button
               type="button"
               onClick={onRequestDelete}

@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { agentsApi } from "@/lib/api/agents";
 import { NavLink } from "@/components/ui/nav-link";
 import { EditAgentButton } from "@/components/agents/edit-agent-button";
@@ -7,6 +7,9 @@ import { TAB_ACTIVE_CLASS, TAB_INACTIVE_CLASS } from "@/lib/tab-styles";
 
 export default async function AgentLayout(props: LayoutProps<"/agents/[slug]">) {
   const { slug } = await props.params;
+  if (slug === "general") {
+    redirect("/");
+  }
   const agent = await agentsApi.getBySlug(slug);
   if (!agent) notFound();
 

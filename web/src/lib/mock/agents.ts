@@ -20,6 +20,7 @@ export type MockAgent = {
   tools: AgentToolKey[];
   skills: AgentSkillKey[];
   model: AgentModel;
+  isDefault?: boolean;
 };
 
 /** id của "Chat chung" — không nằm trong MOCK_AGENTS (không phải agent chuyên trách), nhưng vẫn có dữ liệu riêng (chi phí, hồ sơ chung). */

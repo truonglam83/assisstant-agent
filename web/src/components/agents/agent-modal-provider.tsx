@@ -56,7 +56,7 @@ export function AgentModalProvider({ children }: { children: ReactNode }) {
   const refreshAgents = useCallback(async () => {
     try {
       const list = await agentsApi.list();
-      setAgents([...list]);
+      setAgents(list.filter((a) => !a.isDefault && a.slug !== "general"));
     } finally {
       setIsLoaded(true);
     }
